@@ -1,14 +1,39 @@
-.env
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+
+# Virtual Environments
 env/
 venv/
+.venv/
+
+# Environment Variables
+.env
+
+# Temporary repositories
 backend/temp_repos/
+
+# IDE
 .vscode/
+.idea/
+
+# Logs
 *.log
+
+# Database
+*.db
+*.sqlite3
+
+# Node / Frontend
 node_modules/
 .next/
 dist/
 build/
+
+# Remotion
 out/
 renders/
+
+# OS
+.DS_Store
+Thumbs.db
