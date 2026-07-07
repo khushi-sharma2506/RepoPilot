@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+env/
+venv/
+
+# Environment Variables
+.env
+
+# Temporary repositories
+backend/temp_repos/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# SQLite
+*.db
+
+# Python cache
+.pytest_cache/
+
+# Node (future frontend)
+node_modules/
+.next/
+dist/
+build/
+
+# Remotion output (future)
+out/
+renders/
