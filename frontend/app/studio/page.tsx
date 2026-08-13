@@ -14,9 +14,18 @@ import { useStudioSettings } from "@/hooks/use-studio-settings";
 
 import { motion } from "motion/react";
 import Link from "next/link";
-import { LogOut, Activity } from "lucide-react";
+import { LogOut, Activity, User } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function StudioPage() {
+  const router = require("next/navigation").useRouter();
+  const { data: session, status: authStatus } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/login");
+    },
+  });
+  
   const { status, setStatus, project, setProject, progress, errorMsg, startAnalysis, selectStoryAngle } = usePilotEngine();
   const scriptAgent = useScriptAgent(project, setProject);
   const studioSettings = useStudioSettings(project, setProject, status);
@@ -36,13 +45,27 @@ export default function StudioPage() {
           </span>
         </Link>
         <div className="flex items-center gap-4">
+          {session?.user && (
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-neutral-800/50 rounded-full border border-neutral-800">
+              {session.user.image ? (
+                <img src={session.user.image} alt="User" className="w-5 h-5 rounded-full" />
+              ) : (
+                <User size={14} className="text-neutral-400" />
+              )}
+              <span className="text-xs font-medium text-neutral-300">{session.user.name || session.user.email}</span>
+            </div>
+          )}
           <div className="text-xs font-medium text-emerald-400 bg-neutral-900 px-3 py-1.5 rounded-full border border-neutral-800 flex items-center gap-2">
             <Activity size={14} />
             Agents Online
           </div>
-          <Link href="/" className="text-neutral-400 hover:text-white transition">
+          <button 
+            onClick={() => signOut({ callbackUrl: "/login" })} 
+            className="text-neutral-400 hover:text-white transition bg-transparent border-none cursor-pointer p-0"
+            title="Log out"
+          >
             <LogOut size={18} />
-          </Link>
+          </button>
         </div>
       </nav>
 

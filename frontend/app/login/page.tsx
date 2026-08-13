@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Sparkles, ArrowRight, Eye, EyeOff, Sun, Moon, GitBranch, Globe, Mail, Lock, Cpu, Activity } from "lucide-react";
 import { InteractiveBG } from "@/components/preview/interactive-bg";
 
@@ -22,10 +23,18 @@ export default function LoginPage() {
 
   useEffect(() => setMounted(true), []);
 
-  const handleEmailAuth = (e: React.FormEvent) => {
+  const handleGithubAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => router.push("/studio"), 1000);
+    await signIn("github", { callbackUrl: "/studio" });
+    setLoading(false);
+  };
+
+  const handleGoogleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    await signIn("google", { callbackUrl: "/studio" });
+    setLoading(false);
   };
 
   return (
@@ -79,48 +88,16 @@ export default function LoginPage() {
               <p style={{ fontSize: 14, color: "var(--p-fg-3)" }}>{isLogin ? "Enter credentials to authorize." : "Set up your workspace credentials."}</p>
             </div>
 
-            <div style={{ display: "flex", gap: 12, marginBottom: 24 }}>
-              <button style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "12px", borderRadius: 12, border: "1px solid var(--p-border)", background: "transparent", color: "var(--p-fg)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}><Globe size={16} /> Google</button>
-              <button style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "12px", borderRadius: 12, border: "1px solid var(--p-border)", background: "transparent", color: "var(--p-fg)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}><GitBranch size={16} /> GitHub</button>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
-              <div style={{ flex: 1, height: 1, background: "var(--p-border)" }} />
-              <span style={{ color: "var(--p-fg-3)", fontSize: 11, fontWeight: 800 }}>OR</span>
-              <div style={{ flex: 1, height: 1, background: "var(--p-border)" }} />
-            </div>
-
-            <form style={{ display: "flex", flexDirection: "column", gap: 16 }} onSubmit={handleEmailAuth}>
-              {!isLogin && (
-                <div>
-                  <label style={{ fontSize: 11, fontWeight: 800, color: "var(--p-fg-3)", textTransform: "uppercase", marginBottom: 6, display: "block" }}>Full Name</label>
-                  <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Developer" required style={{ width: "100%", padding: "12px 16px", borderRadius: 12, border: "1px solid var(--p-border)", background: "var(--p-bg-alt)", color: "var(--p-fg)", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
-                </div>
-              )}
-              <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--p-fg-3)", textTransform: "uppercase", marginBottom: 6, display: "block" }}>Email Address</label>
-                <div style={{ position: "relative" }}>
-                  <Mail size={16} style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", color: "var(--p-fg-3)" }} />
-                  <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="dev@example.com" required style={{ width: "100%", padding: "12px 16px 12px 48px", borderRadius: 12, border: "1px solid var(--p-border)", background: "var(--p-bg-alt)", color: "var(--p-fg)", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
-                </div>
-              </div>
-              <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--p-fg-3)", textTransform: "uppercase", marginBottom: 6, display: "block" }}>Access Key</label>
-                <div style={{ position: "relative" }}>
-                  <Lock size={16} style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", color: "var(--p-fg-3)" }} />
-                  <input type={showPw ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required style={{ width: "100%", padding: "12px 48px", borderRadius: 12, border: "1px solid var(--p-border)", background: "var(--p-bg-alt)", color: "var(--p-fg)", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
-                  <button type="button" onClick={() => setShowPw(!showPw)} style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "var(--p-fg-3)", cursor: "pointer" }}>{showPw ? <EyeOff size={16} /> : <Eye size={16} />}</button>
-                </div>
-              </div>
-
-              <button type="submit" disabled={loading} style={{ width: "100%", height: 52, borderRadius: 14, background: "var(--p-accent)", color: "#fff", border: "none", fontSize: 15, fontWeight: 700, cursor: loading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 8, boxShadow: "0 10px 25px var(--p-accent-glow)" }}>
-                {loading ? "PROCESSING..." : isLogin ? "AUTHORIZE SESSION" : "INITIALIZE ACCOUNT"}
-                {!loading && <ArrowRight size={18} />}
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <button onClick={handleGithubAuth} disabled={loading} style={{ width: "100%", height: 52, borderRadius: 14, background: "var(--p-accent)", color: "#fff", border: "none", fontSize: 15, fontWeight: 700, cursor: loading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 8, boxShadow: "0 10px 25px var(--p-accent-glow)" }}>
+                {loading ? "PROCESSING..." : "CONTINUE WITH GITHUB"}
+                {!loading && <GitBranch size={18} />}
               </button>
-            </form>
-
-            <div style={{ textAlign: "center", marginTop: 24, display: "flex", flexDirection: "column", gap: 12 }}>
-              <button onClick={() => setIsLogin(!isLogin)} style={{ background: "none", border: "none", color: "var(--p-fg-3)", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>{isLogin ? "Need a new workspace? Initialize" : "Already have access? Authenticate"}</button>
+              
+              <button onClick={handleGoogleAuth} disabled={loading} style={{ width: "100%", height: 52, borderRadius: 14, background: "rgba(255,255,255,0.05)", color: "var(--p-fg)", border: "1px solid var(--p-border)", fontSize: 15, fontWeight: 700, cursor: loading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+                {loading ? "PROCESSING..." : "CONTINUE WITH GOOGLE"}
+                {!loading && <Globe size={18} />}
+              </button>
             </div>
           </motion.div>
         </AnimatePresence>

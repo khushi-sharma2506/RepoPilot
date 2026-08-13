@@ -1,7 +1,20 @@
+import { getSession } from "next-auth/react";
+
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
+async function fetchWithAuth(url: string, options: RequestInit = {}) {
+  const session: any = await getSession();
+  const headers = new Headers(options.headers || {});
+  
+  if (session?.accessToken) {
+    headers.set("Authorization", `Bearer ${session.accessToken}`);
+  }
+  
+  return fetch(url, { ...options, headers });
+}
+
 export async function analyzeRepo(url: string) {
-  const res = await fetch(`${API_BASE}/projects`, {
+  const res = await fetchWithAuth(`${API_BASE}/projects`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ github_url: url })
@@ -11,13 +24,13 @@ export async function analyzeRepo(url: string) {
 }
 
 export async function pollProjectStatus(id: number) {
-  const res = await fetch(`${API_BASE}/projects/${id}`);
+  const res = await fetchWithAuth(`${API_BASE}/projects/${id}`);
   if (!res.ok) throw new Error("Failed to poll status");
   return res.json();
 }
 
 export async function generateScript(id: number, storyIndex: number) {
-  const res = await fetch(`${API_BASE}/projects/${id}/script`, {
+  const res = await fetchWithAuth(`${API_BASE}/projects/${id}/script`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ story_index: storyIndex })
@@ -27,7 +40,7 @@ export async function generateScript(id: number, storyIndex: number) {
 }
 
 export async function sendChatMessage(id: number, prompt: string, history: any[]) {
-  const res = await fetch(`${API_BASE}/projects/${id}/chat`, {
+  const res = await fetchWithAuth(`${API_BASE}/projects/${id}/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt, history })
@@ -37,14 +50,14 @@ export async function sendChatMessage(id: number, prompt: string, history: any[]
 }
 
 export async function fetchVoices() {
-  const res = await fetch(`${API_BASE}/voices`);
+  const res = await fetchWithAuth(`${API_BASE}/voices`);
   if (!res.ok) throw new Error("Failed to fetch voices");
   const data = await res.json();
   return data.voices || [];
 }
 
 export async function previewVoice(voiceId: string, pitch: string) {
-  const res = await fetch(`${API_BASE}/voice-preview`, {
+  const res = await fetchWithAuth(`${API_BASE}/voice-preview`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ voice_id: voiceId, pitch })
@@ -54,7 +67,7 @@ export async function previewVoice(voiceId: string, pitch: string) {
 }
 
 export async function generateVoiceover(id: number, voiceId: string, pitch: string) {
-  const res = await fetch(`${API_BASE}/projects/${id}/voice`, {
+  const res = await fetchWithAuth(`${API_BASE}/projects/${id}/voice`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ voice_id: voiceId, pitch })

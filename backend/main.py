@@ -6,6 +6,7 @@ from sqlalchemy.orm.attributes import flag_modified
 from models import database, schema
 from agents.repository_agent import analyze_repository
 from services.llm_service import generate_features, generate_story, generate_script
+from services.auth_service import get_current_user
 import uvicorn
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -30,8 +31,18 @@ def home():
     return {"message": "RepoPilot backend is running"}
 
 @app.post("/api/projects")
-def create_project(request: RepoRequest, background_tasks: BackgroundTasks, db: Session = Depends(database.get_db)):
-    project = schema.Project(github_url=request.github_url, live_url=request.live_url, status="analyzing")
+def create_project(
+    request: RepoRequest, 
+    background_tasks: BackgroundTasks, 
+    db: Session = Depends(database.get_db),
+    current_user: schema.User = Depends(get_current_user)
+):
+    project = schema.Project(
+        github_url=request.github_url, 
+        live_url=request.live_url, 
+        status="analyzing",
+        owner_id=current_user.id
+    )
     db.add(project)
     db.commit()
     db.refresh(project)
@@ -82,8 +93,8 @@ def run_analysis(project_id: int, github_url: str):
         db.close()
 
 @app.get("/api/projects/{project_id}")
-def get_project(project_id: int, db: Session = Depends(database.get_db)):
-    project = db.query(schema.Project).filter(schema.Project.id == project_id).first()
+def get_project(project_id: int, db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
+    project = db.query(schema.Project).filter(schema.Project.id == project_id, schema.Project.owner_id == current_user.id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
     return project
@@ -92,8 +103,8 @@ class StorySelection(BaseModel):
     story_index: int
 
 @app.post("/api/projects/{project_id}/script")
-def generate_project_script(project_id: int, selection: StorySelection, db: Session = Depends(database.get_db)):
-    project = db.query(schema.Project).filter(schema.Project.id == project_id).first()
+def generate_project_script(project_id: int, selection: StorySelection, db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
+    project = db.query(schema.Project).filter(schema.Project.id == project_id, schema.Project.owner_id == current_user.id).first()
     if not project or not project.story_json:
         raise HTTPException(status_code=404, detail="Project or stories not found")
     
@@ -109,8 +120,8 @@ class SceneUpdate(BaseModel):
     scenes: list
 
 @app.put("/api/projects/{project_id}/script")
-def update_script(project_id: int, update: SceneUpdate, db: Session = Depends(database.get_db)):
-    project = db.query(schema.Project).filter(schema.Project.id == project_id).first()
+def update_script(project_id: int, update: SceneUpdate, db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
+    project = db.query(schema.Project).filter(schema.Project.id == project_id, schema.Project.owner_id == current_user.id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
     project.script_json = {"scenes": update.scenes}
@@ -126,8 +137,8 @@ class VoiceSettings(BaseModel):
     pitch: str = "+0Hz"
 
 @app.post("/api/projects/{project_id}/chat")
-def chat_with_script(project_id: int, chat: ChatPrompt, db: Session = Depends(database.get_db)):
-    project = db.query(schema.Project).filter(schema.Project.id == project_id).first()
+def chat_with_script(project_id: int, chat: ChatPrompt, db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
+    project = db.query(schema.Project).filter(schema.Project.id == project_id, schema.Project.owner_id == current_user.id).first()
     if not project or not project.script_json:
         raise HTTPException(status_code=404, detail="Project or script not found")
     
@@ -147,8 +158,8 @@ def chat_with_script(project_id: int, chat: ChatPrompt, db: Session = Depends(da
     return response_data
 
 @app.post("/api/projects/{project_id}/voice")
-def generate_project_voice(project_id: int, settings: VoiceSettings, db: Session = Depends(database.get_db)):
-    project = db.query(schema.Project).filter(schema.Project.id == project_id).first()
+def generate_project_voice(project_id: int, settings: VoiceSettings, db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
+    project = db.query(schema.Project).filter(schema.Project.id == project_id, schema.Project.owner_id == current_user.id).first()
     if not project or not project.script_json:
         raise HTTPException(status_code=404, detail="Project or script not found")
     
