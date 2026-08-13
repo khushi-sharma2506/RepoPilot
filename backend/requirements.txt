@@ -3,3 +3,7 @@ uvicorn
 GitPython
 requests
 python-dotenv
+google-generativeai
+sqlalchemy
+playwright
+edge-tts

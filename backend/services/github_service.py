@@ -14,7 +14,11 @@ def clone_repository(github_url: str) -> str:
     repo_id = str(uuid.uuid4())
     repo_path = os.path.join(TEMP_DIR, repo_id)
 
-    Repo.clone_from(github_url, repo_path)
+    try:
+        Repo.clone_from(github_url, repo_path, depth=1)
+    except Exception:
+        Repo.clone_from(github_url, repo_path, depth=1, no_checkout=True)
+
     return repo_path
 
 
