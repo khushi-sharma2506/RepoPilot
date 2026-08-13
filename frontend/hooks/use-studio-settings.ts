@@ -24,7 +24,9 @@ export function useStudioSettings(project: Project | null, setProject: (p: Proje
     setPreviewLoading(true);
     try {
       const data = await previewVoice(voiceId, `${pitch >= 0 ? "+" : ""}${pitch}Hz`);
-      const audio = new window.Audio(data.audio_url);
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || '';
+      const audioUrl = data.audio_url.startsWith('/') ? `${baseUrl}${data.audio_url}` : data.audio_url;
+      const audio = new window.Audio(audioUrl);
       audio.play();
     } catch (e) {
       console.error(e);

@@ -35,7 +35,13 @@ export const SceneRenderer: React.FC<{ scene: Scene; durationFrames: number }> =
         </div>
       </div>
 
-      {scene.audio_url && <Audio src={scene.audio_url} />}
+      {scene.audio_url && (
+        <Audio 
+          src={scene.audio_url.startsWith('/') 
+            ? `${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || ''}${scene.audio_url}` 
+            : scene.audio_url} 
+        />
+      )}
     </AbsoluteFill>
   );
 };

@@ -10,9 +10,15 @@ from services.auth_service import get_current_user
 import uvicorn
 
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+import os
 
 schema.Base.metadata.create_all(bind=database.engine)
 app = FastAPI(title="RepoPilot Backend")
+
+# Ensure output directory exists for audio files
+os.makedirs("services/output", exist_ok=True)
+app.mount("/audio", StaticFiles(directory="services/output"), name="audio")
 
 app.add_middleware(
     CORSMiddleware,
