@@ -217,8 +217,6 @@ function StudioContent() {
                   handlePreviewVoice={studioSettings.handlePreviewVoice}
                   voiceLoading={studioSettings.voiceLoading}
                   handleGenerateVoiceover={studioSettings.handleGenerateVoiceover}
-                  renderLoading={studioSettings.renderLoading}
-                  handleRenderMp4={studioSettings.handleRenderMp4}
                 />
               </>
             )}
