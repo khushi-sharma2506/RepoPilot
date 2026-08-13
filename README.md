@@ -196,6 +196,6 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 <div align="center">
 
-Built with ❤️ by [Khushi Sharma](https://github.com/khushi-sharma2506)
+Developed by [Khushi Sharma](https://github.com/khushi-sharma2506)
 
 </div>
