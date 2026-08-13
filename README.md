@@ -18,7 +18,7 @@
 
 ## What is RepoPilot?
 
-RepoPilot is an AI-powered studio that eliminates the friction of creating high-quality developer demo videos. Just paste a GitHub URL — our AI agents will analyze your codebase, craft a compelling narrative, generate a studio-quality voiceover, and produce a video ready for YouTube, Product Hunt, TikTok, or your portfolio.
+RepoPilot is an AI-powered studio that eliminates the friction of creating high-quality developer demo videos. Just paste a GitHub URL — our AI agents will analyze your codebase, craft a compelling narrative, generate a studio-quality voiceover, and produce a professional demo video ready for YouTube, Product Hunt, your portfolio, or presentations.
 
 No video editing skills required.
 
