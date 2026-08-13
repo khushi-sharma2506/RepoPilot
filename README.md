@@ -16,7 +16,7 @@
 
 ---
 
-## ✨ What is RepoPilot?
+## What is RepoPilot?
 
 RepoPilot is an AI-powered studio that eliminates the friction of creating high-quality developer demo videos. Just paste a GitHub URL — our AI agents will analyze your codebase, craft a compelling narrative, generate a studio-quality voiceover, and produce a video ready for YouTube, Product Hunt, TikTok, or your portfolio.
 
@@ -24,21 +24,21 @@ No video editing skills required.
 
 ---
 
-## 🚀 Features
+## Features
 
 | Feature | Description |
 |---|---|
-| 🧠 **Autonomous Codebase Analysis** | Deep-dives into your repo via the GitHub API to understand features, architecture, and value |
-| ✍️ **AI Narrative Generation** | Creates tailored story angles — "The Setup", "Feature Deep-Dive", "The Origin Story" — and writes synchronized scripts |
-| 🎙️ **Neural Voiceovers** | Generates studio-quality TTS audio with multiple voice profiles and adjustable pitch |
-| 🎥 **Live Preview Engine** | Interactive Remotion-powered player — preview timing, text overlays, and audio in real-time |
-| 🟩 **Green Screen Export** | Exports a pristine `#00FF00` chroma-key MP4 ready to drop into Premiere Pro, CapCut, or DaVinci |
-| 📱 **Multi-Format Rendering** | Landscape (16:9) for YouTube/ProductHunt or Portrait (9:16) for TikTok/Reels |
-| 🔐 **Secure OAuth** | Sign in with Google or GitHub — no passwords stored, ever |
+| **Autonomous Codebase Analysis** | Deep-dives into your repo via the GitHub API to understand features, architecture, and value |
+| **AI Narrative Generation** | Creates tailored story angles — "The Setup", "Feature Deep-Dive", "The Origin Story" — and writes synchronized scripts |
+| **Neural Voiceovers** | Generates studio-quality TTS audio with multiple voice profiles and adjustable pitch |
+| **Live Preview Engine** | Interactive Remotion-powered player — preview timing, text overlays, and audio in real-time |
+| **Green Screen Export** | Exports a pristine `#00FF00` chroma-key MP4 ready to drop into Premiere Pro, CapCut, or DaVinci |
+| **Multi-Format Rendering** | Landscape (16:9) for YouTube/ProductHunt or Portrait (9:16) for TikTok/Reels |
+| **Secure OAuth** | Sign in with Google or GitHub — no passwords stored, ever |
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 RepoPilot is built on a modern, decoupled stack designed for heavy AI workloads.
 
@@ -82,7 +82,7 @@ RepoPilot is built on a modern, decoupled stack designed for heavy AI workloads.
 
 ---
 
-## 💻 Local Development
+## Local Development
 
 You'll need both the Python backend and Next.js frontend running simultaneously.
 
@@ -150,7 +150,7 @@ Navigate to `http://localhost:3000`, sign in, paste any public GitHub URL, and l
 
 ---
 
-## 🎬 How to Use the Green Screen Export
+## How to Use the Green Screen Export
 
 1. Paste a GitHub URL and click **Analyze**.
 2. Pick a narrative angle from the AI-generated story options.
@@ -160,11 +160,11 @@ Navigate to `http://localhost:3000`, sign in, paste any public GitHub URL, and l
 6. Click **Export MP4** to download your rendered video.
 7. Drop the `.mp4` into **CapCut**, **Premiere Pro**, or **DaVinci Resolve**.
 8. Apply a **Chroma Key** filter — the green background disappears instantly.
-9. Place your screen recordings or visuals on the layer underneath. Done! 🎉
+9. Place your screen recordings or visuals on the layer underneath. Done!
 
 ---
 
-## ☁️ Deployment
+## Deployment
 
 | Service | Platform | Notes |
 |---|---|---|
@@ -176,7 +176,7 @@ Navigate to `http://localhost:3000`, sign in, paste any public GitHub URL, and l
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please open an issue first to discuss what you'd like to change, then submit a pull request.
 
@@ -188,7 +188,7 @@ Contributions are welcome! Please open an issue first to discuss what you'd like
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
