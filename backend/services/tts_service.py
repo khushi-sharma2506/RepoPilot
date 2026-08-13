@@ -8,7 +8,7 @@ import uuid
 # "en-US-AriaNeural" is a good professional female voice
 
 VOICE = "en-US-ChristopherNeural"
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "public", "audio")
+OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
