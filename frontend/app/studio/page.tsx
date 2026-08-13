@@ -227,6 +227,7 @@ function StudioContent() {
           </div>
         </motion.div>
       </main>
+    </div>
   );
 }
 
