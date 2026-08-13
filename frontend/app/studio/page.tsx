@@ -16,9 +16,10 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { LogOut, Activity, User } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function StudioPage() {
-  const router = require("next/navigation").useRouter();
+  const router = useRouter();
   const { data: session, status: authStatus } = useSession({
     required: true,
     onUnauthenticated() {
