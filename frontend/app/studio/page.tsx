@@ -1,5 +1,8 @@
 "use client";
 
+// This page is fully dynamic (auth-gated + URL params) — skip static prerender entirely
+export const dynamic = "force-dynamic";
+
 import React from "react";
 import { RepoAnalyzer } from "@/components/pilot/repo-analyzer";
 import { NarrativeCards } from "@/components/pilot/narrative-cards";
