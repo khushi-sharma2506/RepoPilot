@@ -24,6 +24,17 @@ No video editing skills required.
 
 ---
 
+## How it Works
+
+Using RepoPilot takes less than 2 minutes:
+
+1. **Connect & Analyze:** Paste any public GitHub repository URL into the dashboard. RepoPilot's AI agents will read the code, detect the tech stack, and understand the core features.
+2. **Choose an Angle:** Pick a narrative style (e.g., "The Technical Deep-Dive" or "The Origin Story"). The AI will generate a synchronized scene-by-scene script.
+3. **Edit & Direct:** The developer has full control! You can edit the script yourself, or chat with the AI Director Agent to tweak the tone, add custom notes, and refine the scenes until they are perfect.
+4. **Generate & Export:** Pick an AI voice, generate the audio, and hit **Export MP4** to render your cinematic green-screen template!
+
+---
+
 ## Features
 
 | Feature | Description |
