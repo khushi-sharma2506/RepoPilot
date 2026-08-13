@@ -17,8 +17,9 @@ import Link from "next/link";
 import { LogOut, Activity, User } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Suspense } from "react";
 
-export default function StudioPage() {
+function StudioContent() {
   const router = useRouter();
   const { data: session, status: authStatus } = useSession({
     required: true,
@@ -223,6 +224,13 @@ export default function StudioPage() {
           </div>
         </motion.div>
       </main>
-    </div>
+  );
+}
+
+export default function StudioPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "100vh", background: "var(--p-bg)", color: "var(--p-fg)" }}>Loading Workspace...</div>}>
+      <StudioContent />
+    </Suspense>
   );
 }
