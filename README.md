@@ -6,24 +6,48 @@
 
 **Turn any GitHub repository into a cinematic, voice-narrated demo video — in minutes.**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-repo--pilot--nine--nu.vercel.app-blue?style=for-the-badge&logo=vercel)](https://repo-pilot-nine-nu.vercel.app)
-[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
-[![Next.js](https://img.shields.io/badge/Frontend-Next.js%2016-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
-[![Gemini](https://img.shields.io/badge/AI-Gemini-8E44AD?style=for-the-badge&logo=google)](https://ai.google.dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-repo--pilot--nine--nu.vercel.app-black?style=flat&logo=vercel)](https://repo-pilot-nine-nu.vercel.app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat)](LICENSE)
+
+<p>
+  <img alt="Next.js 16" src="https://img.shields.io/badge/Next.js_16-000?logo=nextdotjs&logoColor=white">
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white">
+  <img alt="Remotion" src="https://img.shields.io/badge/Remotion-000000?logo=remotion&logoColor=white">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white">
+  <img alt="Gemini" src="https://img.shields.io/badge/Google_Gemini-8E75B2?logo=googlegemini&logoColor=white">
+  <img alt="Edge TTS" src="https://img.shields.io/badge/Edge_TTS-0078D7?logo=microsoftedge&logoColor=white">
+  <img alt="Supabase" src="https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=white">
+  <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white">
+  <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white">
+  <img alt="Vercel" src="https://img.shields.io/badge/Vercel-000?logo=vercel&logoColor=white">
+  <img alt="Render" src="https://img.shields.io/badge/Render-000?logo=render&logoColor=white">
+</p>
 
 </div>
 
 ---
 
-## What is RepoPilot?
+## 🚨 The Problem: The "Showcase" Wall
 
-RepoPilot is an AI-powered studio that eliminates the friction of creating high-quality developer demo videos. Just paste a GitHub URL — our AI agents will analyze your codebase, craft a compelling narrative, generate a studio-quality voiceover, and produce a professional demo video ready for YouTube, Product Hunt, your portfolio, or presentations.
+Great developers are often terrible marketers. You spend hundreds of hours building an incredible open-source tool, but when it's time to share it with the world, you just drop a link to a dense, text-heavy README. 
 
+People don't want to read source code to understand why your project is cool. They want to *see* it. But creating a professional demo video requires writing a script, recording a high-quality voiceover, editing timing, adding overlays, and mastering complex software like Premiere Pro. It's exhausting. 
+
+**RepoPilot breaks down the showcase wall.**
 
 ---
 
-## How it Works
+## 🎬 The Solution: Your Personal AI Film Studio
+
+RepoPilot is an autonomous AI-powered studio that eliminates the friction of creating high-quality developer demo videos. 
+
+Just paste a GitHub URL — our AI agents will instantly deep-dive into your codebase, understand your architecture, craft a compelling narrative, generate a studio-quality neural voiceover, and produce a professional green-screen demo video.
+
+**No video editing skills required. Just your code.**
+
+---
+
+## 🚀 How it Works (in 4 Steps)
 
 Using RepoPilot takes less than 2 minutes:
 
@@ -34,7 +58,7 @@ Using RepoPilot takes less than 2 minutes:
 
 ---
 
-## Features
+## ⚡ Features
 
 | Feature | Description |
 |---|---|
@@ -48,7 +72,7 @@ Using RepoPilot takes less than 2 minutes:
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
 RepoPilot is built on a modern, decoupled stack designed for heavy AI workloads.
 
@@ -76,23 +100,9 @@ RepoPilot is built on a modern, decoupled stack designed for heavy AI workloads.
        └───────────────────────┘
 ```
 
-### Frontend Stack
-- **Framework**: Next.js 16 (App Router, Turbopack)
-- **Auth**: NextAuth.js with Google & GitHub OAuth providers
-- **Video Engine**: Remotion for live preview and MP4 bundling
-- **Animations**: Framer Motion / Motion React
-- **Styling**: Vanilla CSS with a custom dark-mode design system
-
-### Backend Stack
-- **API**: FastAPI with async task handling
-- **AI Engine**: Google Gemini via `google-genai` SDK
-- **TTS Engine**: Edge TTS for free, high-quality neural voices
-- **Database**: PostgreSQL via Supabase, SQLAlchemy ORM + pg8000 driver
-- **Auth**: JWT verification using `python-jose`
-
 ---
 
-## Local Development
+## 💻 Local Development
 
 You'll need both the Python backend and Next.js frontend running simultaneously.
 
@@ -126,6 +136,7 @@ Create a `.env` file inside the `backend/` directory:
 GEMINI_API_KEY=your_gemini_api_key_here
 DATABASE_URL=postgresql+pg8000://postgres:[password]@[host]:5432/postgres
 NEXTAUTH_SECRET=your_secret_here
+GITHUB_TOKEN=your_github_personal_access_token
 ```
 
 ```bash
@@ -160,21 +171,7 @@ Navigate to `http://localhost:3000`, sign in, paste any public GitHub URL, and l
 
 ---
 
-## How to Use the Green Screen Export
-
-1. Paste a GitHub URL and click **Analyze**.
-2. Pick a narrative angle from the AI-generated story options.
-3. Review and refine the script using the AI chat editor.
-4. Choose your voice, pitch, and aspect ratio in the Studio settings.
-5. Click **Generate Voiceover** to attach audio to each scene.
-6. Click **Export MP4** to download your rendered video.
-7. Drop the `.mp4` into **CapCut**, **Premiere Pro**, or **DaVinci Resolve**.
-8. Apply a **Chroma Key** filter — the green background disappears instantly.
-9. Place your screen recordings or visuals on the layer underneath. Done!
-
----
-
-## Deployment
+## ☁️ Deployment
 
 | Service | Platform | Notes |
 |---|---|---|
@@ -186,7 +183,7 @@ Navigate to `http://localhost:3000`, sign in, paste any public GitHub URL, and l
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please open an issue first to discuss what you'd like to change, then submit a pull request.
 
@@ -198,7 +195,7 @@ Contributions are welcome! Please open an issue first to discuss what you'd like
 
 ---
 
-## License
+## 📄 License
 
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
