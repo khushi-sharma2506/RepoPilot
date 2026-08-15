@@ -8,7 +8,8 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
-import { Play, Calendar, FolderGit, ExternalLink, Loader2, Plus, Sparkles, Trash2, AlertTriangle, X } from "lucide-react";
+import { Play, Calendar, FolderGit, ExternalLink, Loader2, Plus, Sparkles, Trash2, AlertTriangle, X, CheckCircle2 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [projectToDelete, setProjectToDelete] = useState<number | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
 
   useEffect(() => {
     if (authStatus !== "authenticated") return;
@@ -41,6 +43,8 @@ export default function Dashboard() {
       await deleteProject(projectToDelete);
       setProjects((prev) => prev.filter((p) => p.id !== projectToDelete));
       setProjectToDelete(null);
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 3000);
     } catch (err) {
       alert("Failed to delete project");
     } finally {
@@ -190,6 +194,21 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      {/* Success Toast */}
+      <AnimatePresence>
+        {showSuccessToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className="fixed bottom-6 right-6 z-[200] bg-emerald-600 dark:bg-emerald-500 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-emerald-500/50"
+          >
+            <CheckCircle2 size={20} className="text-emerald-100" />
+            <span className="font-semibold text-sm">Project deleted successfully</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
