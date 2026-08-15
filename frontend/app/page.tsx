@@ -121,11 +121,11 @@ export default function LandingPage() {
           {mounted ? (resolvedTheme === "dark" ? <Sun size={16} /> : <Moon size={16} />) : <div style={{ width: 16, height: 16 }} />}
         </button>
 
-        <Link href="/login" className="hidden sm:block text-sm font-semibold text-[var(--p-fg-2)] no-underline px-2 py-2">
+        <Link href="/dashboard" className="hidden sm:block text-sm font-semibold text-[var(--p-fg-2)] no-underline px-2 py-2">
           Sign in
         </Link>
 
-        <Link href="/login" className="shrink-0 text-sm font-semibold text-white no-underline px-4 py-2 rounded-lg flex items-center gap-1.5" style={{ background: "linear-gradient(135deg, var(--p-accent), var(--p-accent-2))", boxShadow: "0 2px 12px var(--p-accent-glow)" }}>
+        <Link href="/dashboard" className="shrink-0 text-sm font-semibold text-white no-underline px-4 py-2 rounded-lg flex items-center gap-1.5" style={{ background: "linear-gradient(135deg, var(--p-accent), var(--p-accent-2))", boxShadow: "0 2px 12px var(--p-accent-glow)" }}>
           <span className="hidden sm:inline">Enter Studio</span><span className="sm:hidden">Studio</span> <ArrowRight size={14} />
         </Link>
       </motion.nav>
@@ -156,7 +156,7 @@ export default function LandingPage() {
         <Fade delay={0.3}>
           <div className="flex flex-col sm:flex-row gap-3 justify-center w-full sm:w-auto px-4">
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.98 }}>
-              <Link href="/login" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 28px", borderRadius: 12, fontSize: 15, fontWeight: 700, color: "#fff", textDecoration: "none", background: "linear-gradient(135deg, var(--p-accent), var(--p-accent-2))", boxShadow: "0 4px 20px var(--p-accent-glow), 0 0 0 1px var(--p-accent)" }}>
+              <Link href="/dashboard" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 28px", borderRadius: 12, fontSize: 15, fontWeight: 700, color: "#fff", textDecoration: "none", background: "linear-gradient(135deg, var(--p-accent), var(--p-accent-2))", boxShadow: "0 4px 20px var(--p-accent-glow), 0 0 0 1px var(--p-accent)" }}>
                 <Sparkles size={16} /> Enter the Studio Free
               </Link>
             </motion.div>
@@ -275,7 +275,7 @@ export default function LandingPage() {
               Transform your GitHub repository into a professional project showcase video.
             </p>
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.98 }} style={{ position: "relative" }}>
-              <Link href="/login" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 32px", borderRadius: 12, fontSize: 16, fontWeight: 700, color: "#fff", textDecoration: "none", background: "linear-gradient(135deg, var(--p-accent), var(--p-accent-2))", boxShadow: "0 4px 24px var(--p-accent-glow)" }}>
+              <Link href="/dashboard" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 32px", borderRadius: 12, fontSize: 16, fontWeight: 700, color: "#fff", textDecoration: "none", background: "linear-gradient(135deg, var(--p-accent), var(--p-accent-2))", boxShadow: "0 4px 24px var(--p-accent-glow)" }}>
                 Enter the Studio Free <ArrowRight size={16} />
               </Link>
             </motion.div>

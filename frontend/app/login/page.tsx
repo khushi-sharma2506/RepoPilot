@@ -27,7 +27,7 @@ export default function LoginPage() {
   const handleGithubAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await signIn("github", { callbackUrl: "/studio" });
+    await signIn("github", { callbackUrl: "/dashboard" });
     setLoading(false);
   };
 

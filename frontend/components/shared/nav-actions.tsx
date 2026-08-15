@@ -4,7 +4,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
-import { Moon, Sun, LogOut, User } from "lucide-react";
+import Link from "next/link";
+import { Moon, Sun, LogOut, User, LayoutDashboard } from "lucide-react";
 
 export function NavActions() {
   const { theme, setTheme } = useTheme();
@@ -75,6 +76,14 @@ export function NavActions() {
               </p>
             </div>
             <div className="p-1">
+              <Link
+                href="/dashboard"
+                className="w-full text-left px-3 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg flex items-center gap-2 transition"
+                onClick={() => setMenuOpen(false)}
+              >
+                <LayoutDashboard size={16} />
+                Dashboard
+              </Link>
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg flex items-center gap-2 transition"

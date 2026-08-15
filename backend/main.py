@@ -125,6 +125,12 @@ def run_analysis(project_id: int, github_url: str, user_github_token: str = None
     finally:
         db.close()
 
+@app.get("/api/projects")
+def get_user_projects(db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
+    projects = db.query(schema.Project).filter(schema.Project.owner_id == current_user.id).order_by(schema.Project.id.desc()).limit(50).all()
+    # We can strip heavy JSON fields if needed, but returning them for 50 projects is generally okay for this app.
+    return {"projects": projects}
+
 @app.get("/api/projects/{project_id}")
 def get_project(project_id: int, db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
     project = db.query(schema.Project).filter(schema.Project.id == project_id, schema.Project.owner_id == current_user.id).first()
