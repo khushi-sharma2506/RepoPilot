@@ -62,7 +62,8 @@ function SceneCard({
               className="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-700 hover:bg-amber-200 dark:hover:bg-amber-800/50 transition cursor-pointer flex items-center gap-1 shadow-sm"
               title={`Narration takes ~${estimatedSecs}s to speak but scene is only ${scene.duration_seconds}s. Click to auto-fix.`}
             >
-              ⚠ Voice cut off <span className="opacity-50">|</span> Click to snap to ~{estimatedSecs + 0.5}s
+              <span className="hidden sm:inline">⚠ Voice cut off <span className="opacity-50">|</span> Click to snap to ~{estimatedSecs + 0.5}s</span>
+              <span className="sm:hidden">⚠ Snap ~{estimatedSecs + 0.5}s</span>
             </button>
           )}
         </div>
@@ -243,21 +244,22 @@ export function ScriptEditor({
   return (
     <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 max-w-7xl mx-auto w-full">
       {/* Back button + header */}
-      <div className="flex flex-col items-center mb-6 px-4 relative">
+      <div className="flex flex-col items-center mb-6 px-4 relative pt-10 md:pt-0">
         <button
           onClick={onBack}
-          className="absolute left-0 top-0 flex items-center gap-1.5 text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition"
+          className="absolute left-4 top-0 md:top-1 flex items-center gap-1.5 text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition"
         >
-          <ChevronLeft size={16} /> Change Angle
+          <ChevronLeft size={16} /> <span className="hidden sm:inline">Change Angle</span><span className="sm:hidden">Back</span>
         </button>
         <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-white mb-1 text-center">Script Studio</h2>
         <p className="text-sm md:text-base text-neutral-600 dark:text-neutral-400 text-center">Edit scenes directly or chat with the Director Agent.</p>
       </div>
 
       {/* Total Duration Bar */}
-      <div className="max-w-7xl mx-auto mb-6 px-4 flex items-center justify-between bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl px-5 py-3 shadow-sm">
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Total Duration:</span>
+      <div className="max-w-7xl mx-auto mb-6 flex items-center justify-between bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl px-4 md:px-5 py-3 shadow-sm">
+        <div className="flex items-center gap-2 md:gap-3">
+          <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 hidden sm:inline">Total Duration:</span>
+          <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 sm:hidden">Duration:</span>
           <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
             {totalMins > 0 ? `${totalMins}m ` : ""}{totalSecs}s
           </span>
