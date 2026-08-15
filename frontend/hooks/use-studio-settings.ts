@@ -11,6 +11,13 @@ export function useStudioSettings(project: Project | null, setProject: (p: Proje
   const [previewLoading, setPreviewLoading] = useState(false);
   const [voiceLoading, setVoiceLoading] = useState(false);
   const [renderLoading, setRenderLoading] = useState(false);
+  
+  const [toastMessage, setToastMessage] = useState<{title: string, type: "success" | "error"} | null>(null);
+
+  const showToast = (title: string, type: "success" | "error") => {
+    setToastMessage({ title, type });
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   useEffect(() => {
     if (status === "preview" && voices.length === 0) {
@@ -27,11 +34,13 @@ export function useStudioSettings(project: Project | null, setProject: (p: Proje
       if (!data.audio_url) throw new Error("Audio generation failed on backend");
       const baseUrl = process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace('/api', '') : 'http://localhost:8000';
       const audioUrl = typeof data.audio_url === 'string' && data.audio_url.startsWith('/') ? `${baseUrl}${data.audio_url}` : data.audio_url;
-      const audio = new window.Audio(audioUrl);
-      audio.play();
+      if (audioUrl) {
+        const audio = new Audio(audioUrl);
+        audio.play();
+      }
     } catch (e) {
       console.error(e);
-      alert("Failed to preview voice");
+      showToast("Failed to preview voice", "error");
     } finally {
       setPreviewLoading(false);
     }
@@ -43,10 +52,10 @@ export function useStudioSettings(project: Project | null, setProject: (p: Proje
     try {
       const updatedScript = await generateVoiceover(project.id, voiceId, `${pitch >= 0 ? "+" : ""}${pitch}Hz`);
       setProject({ ...project, script_json: updatedScript });
-      alert("AI Voiceover generated successfully!");
+      showToast("AI Voiceover generated successfully!", "success");
     } catch (e) {
       console.error(e);
-      alert("Failed to generate voiceover.");
+      showToast("Failed to generate voiceovers.", "error");
     } finally {
       setVoiceLoading(false);
     }
@@ -67,7 +76,7 @@ export function useStudioSettings(project: Project | null, setProject: (p: Proje
       window.URL.revokeObjectURL(url);
     } catch (e) {
       console.error(e);
-      alert("Failed to render MP4");
+      showToast("Failed to render MP4", "error");
     } finally {
       setRenderLoading(false);
     }
@@ -84,6 +93,7 @@ export function useStudioSettings(project: Project | null, setProject: (p: Proje
     previewLoading,
     voiceLoading,
     renderLoading,
+    toastMessage,
     handlePreviewVoice,
     handleGenerateVoiceover,
     handleRenderMp4

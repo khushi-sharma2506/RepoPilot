@@ -15,13 +15,14 @@ import { usePilotEngine } from "@/hooks/use-pilot-engine";
 import { useScriptAgent } from "@/hooks/use-script-agent";
 import { useStudioSettings } from "@/hooks/use-studio-settings";
 
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Suspense } from "react";
 import { NavActions } from "@/components/shared/nav-actions";
+import { CheckCircle2, AlertTriangle } from "lucide-react";
 
 function StudioContent() {
   const router = useRouter();
@@ -230,6 +231,29 @@ function StudioContent() {
           </div>
         </motion.div>
       </main>
+
+      {/* Global Toast from Studio Settings */}
+      <AnimatePresence>
+        {studioSettings.toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className={`fixed bottom-6 right-6 z-[200] px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border ${
+              studioSettings.toastMessage.type === "success" 
+                ? "bg-emerald-600 dark:bg-emerald-500 text-white border-emerald-500/50" 
+                : "bg-red-600 dark:bg-red-500 text-white border-red-500/50"
+            }`}
+          >
+            {studioSettings.toastMessage.type === "success" ? (
+              <CheckCircle2 size={20} className="text-emerald-100" />
+            ) : (
+              <AlertTriangle size={20} className="text-red-100" />
+            )}
+            <span className="font-semibold text-sm">{studioSettings.toastMessage.title}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
