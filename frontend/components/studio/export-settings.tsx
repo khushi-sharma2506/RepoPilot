@@ -30,16 +30,16 @@ export function ExportSettings({
       const zip = new JSZip();
       
       // Add Script
-      const scriptText = project.script_json.scenes.map((s: any, i: number) => `Scene ${i + 1}:\n${s.voiceover_text}`).join('\n\n');
+      const scriptText = project.script_json.scenes.map((s: any, i: number) => `Scene ${i + 1}:\n${s.narration || ''}`).join('\n\n');
       zip.file("script.txt", scriptText);
       zip.file("script.json", JSON.stringify(project.script_json, null, 2));
 
       // Add Audio
       const scenes = project.script_json.scenes;
       for (let i = 0; i < scenes.length; i++) {
-        if (scenes[i].voiceover_url) {
+        if (scenes[i].audio_url) {
           try {
-            const response = await fetch(scenes[i].voiceover_url);
+            const response = await fetch(scenes[i].audio_url);
             const blob = await response.blob();
             zip.file(`audio/scene_${i + 1}.mp3`, blob);
           } catch (e) {
