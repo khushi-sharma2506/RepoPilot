@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getProjects } from "@/lib/pilot-api";
+import { getProjects, deleteProject } from "@/lib/pilot-api";
 import { NavActions } from "@/components/shared/nav-actions";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
-import { Play, Calendar, FolderGit, ExternalLink, Loader2, Plus, Sparkles } from "lucide-react";
+import { Play, Calendar, FolderGit, ExternalLink, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -30,7 +30,18 @@ export default function Dashboard() {
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, []);
+  }, [authStatus]);
+
+  const handleDelete = async (e: React.MouseEvent, id: number) => {
+    e.preventDefault();
+    if (!confirm("Are you sure you want to delete this project? This cannot be undone.")) return;
+    try {
+      await deleteProject(id);
+      setProjects((prev) => prev.filter((p) => p.id !== id));
+    } catch (err) {
+      alert("Failed to delete project");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 font-sans transition-colors duration-300">
@@ -99,9 +110,18 @@ export default function Dashboard() {
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 border border-neutral-200 dark:border-neutral-700 flex items-center justify-center shrink-0">
                       <FolderGit className="text-neutral-600 dark:text-neutral-400" size={24} />
                     </div>
-                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg border ${statusColor}`}>
-                      {statusText}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg border ${statusColor}`}>
+                        {statusText}
+                      </span>
+                      <button 
+                        onClick={(e) => handleDelete(e, project.id)}
+                        className="p-1.5 text-neutral-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors"
+                        title="Delete project"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </div>
 
                   <h3 className="text-lg font-bold text-neutral-900 dark:text-white mb-1 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">

@@ -28,6 +28,14 @@ export async function getProjects() {
   return res.json();
 }
 
+export async function deleteProject(id: number) {
+  const res = await fetchWithAuth(`${API_BASE}/projects/${id}`, {
+    method: "DELETE"
+  });
+  if (!res.ok) throw new Error("Failed to delete project");
+  return res.json();
+}
+
 export async function fetchUserRepos() {
   const res = await fetchWithAuth(`${API_BASE}/github/repos`);
   if (!res.ok) throw new Error("Failed to fetch user repositories");

@@ -138,6 +138,16 @@ def get_project(project_id: int, db: Session = Depends(database.get_db), current
         raise HTTPException(status_code=404, detail="Project not found")
     return project
 
+@app.delete("/api/projects/{project_id}")
+def delete_project(project_id: int, db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
+    project = db.query(schema.Project).filter(schema.Project.id == project_id, schema.Project.owner_id == current_user.id).first()
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    db.delete(project)
+    db.commit()
+    return {"message": "Project deleted successfully"}
+
 class StorySelection(BaseModel):
     story_index: int
     target_duration_seconds: int = 75  # default ~75 seconds
