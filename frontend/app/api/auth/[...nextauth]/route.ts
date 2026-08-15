@@ -13,6 +13,10 @@ const handler = NextAuth({
   session: {
     strategy: "jwt",
   },
+  pages: {
+    signIn: "/login",
+    error: "/login",
+  },
 
   callbacks: {
     session: async ({ session, token }) => {
