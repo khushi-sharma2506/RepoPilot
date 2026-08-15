@@ -326,7 +326,10 @@ export function ScriptEditor({
               onSave={handleSceneSave}
               onDelete={handleDeleteScene}
               onAddAfter={handleAddSceneAfter}
-              onAskAI={(sceneIdx, prompt) => sendMessage(`For Scene ${sceneIdx + 1}: ${prompt}`)}
+              onAskAI={(sceneIdx, prompt) => {
+                sendMessage(`For Scene ${sceneIdx + 1}: ${prompt}`);
+                setMobileTab("chat");
+              }}
             />
           ))}
           {/* Add scene at end */}
