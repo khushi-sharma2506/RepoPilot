@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Sparkles, ArrowRight, Eye, EyeOff, Sun, Moon, GitBranch, Globe, Mail, Lock, Cpu, Activity } from "lucide-react";
@@ -58,7 +59,7 @@ export default function LoginPage() {
       {/* Theme toggle */}
       {mounted && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: "absolute", top: 40, right: 40, zIndex: 10 }}>
-          <button onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")} style={{ width: 48, height: 48, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.2)", backdropFilter: "blur(12px)", color: "var(--p-fg-2)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+          <button aria-label="Toggle Theme" onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")} style={{ width: 48, height: 48, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.2)", backdropFilter: "blur(12px)", color: "var(--p-fg-2)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
             {resolvedTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
           </button>
         </motion.div>
@@ -69,7 +70,7 @@ export default function LoginPage() {
 
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 32 }}>
           <Link href="/" style={{ textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-            <img src="/logo.png" alt="RepoPilot Logo" style={{ width: 56, height: 56, borderRadius: "50%", objectFit: "cover" }} />
+            <Image src="/logo.png" alt="RepoPilot Logo" width={56} height={56} style={{ borderRadius: "50%", objectFit: "cover" }} />
             <span style={{ fontSize: 24, fontWeight: 800, color: "var(--p-fg)", letterSpacing: "-0.5px" }}>Repo<span style={{ color: "var(--p-accent)" }}>Pilot</span></span>
           </Link>
         </div>

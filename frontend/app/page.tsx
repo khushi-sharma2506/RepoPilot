@@ -5,6 +5,7 @@ import { InteractiveBG } from "@/components/preview/interactive-bg";
 import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Zap, ArrowRight, Play, Sparkles,
   GitBranch, LineChart, Shield,
@@ -93,7 +94,7 @@ export default function LandingPage() {
         className="p-glass"
       >
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-          <img src="/logo.png" alt="RepoPilot Logo" style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover" }} />
+          <Image src="/logo.png" alt="RepoPilot Logo" width={34} height={34} style={{ borderRadius: "50%", objectFit: "cover" }} />
           <span style={{ fontSize: 18, fontWeight: 800, color: "var(--p-fg)", letterSpacing: "-0.5px" }}>
             Repo<span style={{ color: "var(--p-accent)" }}>Pilot</span>
           </span>
@@ -114,6 +115,7 @@ export default function LandingPage() {
         <div style={{ flex: 1 }} />
 
         <button
+          aria-label="Toggle Theme"
           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
           style={{ width: 36, height: 36, borderRadius: 10, border: "1px solid var(--p-border)", background: "transparent", cursor: "pointer", color: "var(--p-fg-3)", display: "flex", alignItems: "center", justifyContent: "center" }}
         >
