@@ -111,22 +111,22 @@ export default function LandingPage() {
           ))}
         </div>
 
-        <div style={{ flex: 1 }} />
+        <div className="flex-1" />
 
         <button
           aria-label="Toggle Theme"
           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-          style={{ width: 36, height: 36, borderRadius: 10, border: "1px solid var(--p-border)", background: "transparent", cursor: "pointer", color: "var(--p-fg-3)", display: "flex", alignItems: "center", justifyContent: "center" }}
+          className="shrink-0 flex items-center justify-center rounded-lg border border-[var(--p-border)] bg-transparent cursor-pointer text-[var(--p-fg-3)] w-9 h-9"
         >
           {mounted ? (resolvedTheme === "dark" ? <Sun size={16} /> : <Moon size={16} />) : <div style={{ width: 16, height: 16 }} />}
         </button>
 
-        <Link href="/login" style={{ fontSize: 14, fontWeight: 600, color: "var(--p-fg-2)", textDecoration: "none", padding: "8px 16px" }}>
+        <Link href="/login" className="hidden sm:block text-sm font-semibold text-[var(--p-fg-2)] no-underline px-2 py-2">
           Sign in
         </Link>
 
-        <Link href="/login" style={{ fontSize: 14, fontWeight: 600, color: "#fff", textDecoration: "none", padding: "8px 20px", borderRadius: 10, background: "linear-gradient(135deg, var(--p-accent), var(--p-accent-2))", boxShadow: "0 2px 12px var(--p-accent-glow)", display: "flex", alignItems: "center", gap: 6 }}>
-          Enter Studio <ArrowRight size={14} />
+        <Link href="/login" className="shrink-0 text-sm font-semibold text-white no-underline px-4 py-2 rounded-lg flex items-center gap-1.5" style={{ background: "linear-gradient(135deg, var(--p-accent), var(--p-accent-2))", boxShadow: "0 2px 12px var(--p-accent-glow)" }}>
+          <span className="hidden sm:inline">Enter Studio</span><span className="sm:hidden">Studio</span> <ArrowRight size={14} />
         </Link>
       </motion.nav>
 
