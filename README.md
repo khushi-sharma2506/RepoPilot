@@ -62,13 +62,15 @@ Using RepoPilot takes less than 2 minutes:
 
 | Feature | Description |
 |---|---|
+| **Projects Dashboard** | Manage all your generated videos in one place with a sleek interface and soft-delete capabilities |
+| **Mobile-Ready Studio** | Fully responsive design ensures the script editor and AI director work flawlessly on phones and tablets |
 | **Autonomous Codebase Analysis** | Deep-dives into your repo via the GitHub API to understand features, architecture, and value |
 | **AI Narrative Generation** | Creates tailored story angles — "The Setup", "Feature Deep-Dive", "The Origin Story" — and writes synchronized scripts |
 | **Neural Voiceovers** | Generates studio-quality TTS audio with multiple voice profiles and adjustable pitch |
 | **Live Preview Engine** | Interactive Remotion-powered player — preview timing, text overlays, and audio in real-time |
 | **Green Screen Export** | Exports a pristine `#00FF00` chroma-key MP4 ready to drop into Premiere Pro, CapCut, or DaVinci |
 | **Multi-Format Rendering** | Landscape (16:9) for YouTube/ProductHunt or Portrait (9:16) for TikTok/Reels |
-| **Secure OAuth** | Sign in with Google or GitHub — no passwords stored, ever |
+| **Secure OAuth** | Sign in with GitHub — no passwords stored, ever |
 
 ---
 
