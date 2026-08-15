@@ -110,9 +110,14 @@ def analyze_repository(github_url: str):
     except Exception as e:
         import traceback
         traceback.print_exc()
+        
+        error_msg = str(e)
+        if "404 Client Error" in error_msg:
+            error_msg = "You have provided a wrong URL or a private repository link. To access a private repository, you must authorize RepoPilot with full GitHub repository access."
+            
         return {
             "status": "error",
             "github_url": github_url,
-            "error": str(e),
+            "error": error_msg,
             "traceback": traceback.format_exc()
         }
