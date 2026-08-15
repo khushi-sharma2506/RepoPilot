@@ -285,11 +285,11 @@ export default function LandingPage() {
       </section>
 
       {/* ─── FOOTER ───────────────────────────────────────────────── */}
-      <footer style={{ position: "relative", zIndex: 1, borderTop: "1px solid var(--p-border)", padding: "40px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", color: "var(--p-fg-3)", fontSize: 13 }}>
+      <footer style={{ position: "relative", zIndex: 1, borderTop: "1px solid var(--p-border)", padding: "40px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", color: "var(--p-fg-2)", fontSize: 13 }}>
         <span>© 2026 RepoPilot</span>
         <div style={{ display: "flex", gap: 24 }}>
           {["Studio", "Voices", "Export"].map((t) => (
-            <a key={t} href="#" style={{ color: "var(--p-fg-3)", textDecoration: "none" }}>{t}</a>
+            <a key={t} href="#" style={{ color: "var(--p-fg-2)", textDecoration: "none" }}>{t}</a>
           ))}
         </div>
       </footer>
