@@ -100,7 +100,7 @@ export default function Dashboard() {
               // Extract details safely
               const projectName = project.repo_analysis_json?.manifest?.project_name || project.github_url.split('/').pop() || "Unknown Project";
               const tagLine = project.repo_analysis_json?.manifest?.one_line_description || project.github_url || "Repository Analysis";
-              const date = new Date(project.created_at);
+              const date = new Date(project.created_at.endsWith("Z") ? project.created_at : project.created_at + "Z");
               const sceneCount = project.script_json?.scenes?.length || 0;
               
               // Figure out where they left off based on status
