@@ -82,7 +82,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--p-bg)", color: "var(--p-fg)", position: "relative", overflow: "hidden" }}>
+    <main style={{ minHeight: "100vh", background: "var(--p-bg)", color: "var(--p-fg)", position: "relative", overflow: "hidden" }}>
       <InteractiveBG />
 
       {/* ─── NAV ──────────────────────────────────────────────────── */}
@@ -293,6 +293,6 @@ export default function LandingPage() {
           ))}
         </div>
       </footer>
-    </div>
+    </main>
   );
 }

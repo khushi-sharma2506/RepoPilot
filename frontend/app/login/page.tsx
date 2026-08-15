@@ -32,7 +32,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--p-bg)", position: "relative", overflow: "hidden" }}>
+    <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--p-bg)", position: "relative", overflow: "hidden" }}>
       <InteractiveBG />
 
       {/* Scrolling WELCOME background text */}
@@ -92,6 +92,6 @@ export default function LoginPage() {
         </AnimatePresence>
       </motion.div>
       <style dangerouslySetInnerHTML={{ __html: `.p-glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }` }} />
-    </div>
+    </main>
   );
 }
