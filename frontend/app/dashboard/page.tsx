@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
-import { Play, Calendar, Github, ExternalLink, Loader2, Plus, Sparkles } from "lucide-react";
+import { Play, Calendar, FolderGit, ExternalLink, Loader2, Plus, Sparkles } from "lucide-react";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -97,7 +97,7 @@ export default function Dashboard() {
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 border border-neutral-200 dark:border-neutral-700 flex items-center justify-center shrink-0">
-                      <Github className="text-neutral-600 dark:text-neutral-400" size={24} />
+                      <FolderGit className="text-neutral-600 dark:text-neutral-400" size={24} />
                     </div>
                     <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg border ${statusColor}`}>
                       {statusText}
