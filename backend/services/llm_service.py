@@ -10,7 +10,7 @@ env_path = os.path.join(os.path.dirname(__file__), "..", ".env")
 load_dotenv(env_path)
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-MODEL = "gemini-flash-latest"
+MODEL = "gemini-3.5-flash-lite"
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
 
