@@ -14,10 +14,11 @@ MODEL = "gemini-flash-latest"
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
 
-def _github_headers():
+def _github_headers(user_token: str = None):
     headers = {"Accept": "application/vnd.github+json"}
-    if GITHUB_TOKEN:
-        headers["Authorization"] = f"Bearer {GITHUB_TOKEN}"
+    token_to_use = user_token if user_token else GITHUB_TOKEN
+    if token_to_use:
+        headers["Authorization"] = f"Bearer {token_to_use}"
     return headers
 
 def parse_github_url(github_url: str):
@@ -26,18 +27,18 @@ def parse_github_url(github_url: str):
     parts = github_url.replace("https://github.com/", "").split("/")
     return parts[0], parts[1]
 
-def fetch_repo_tree(owner: str, repo: str) -> list:
+def fetch_repo_tree(owner: str, repo: str, user_token: str = None) -> list:
     """Fetch the full file tree via GitHub API (no cloning needed)."""
     url = f"https://api.github.com/repos/{owner}/{repo}/git/trees/HEAD?recursive=1"
-    res = http_requests.get(url, headers=_github_headers(), timeout=30)
+    res = http_requests.get(url, headers=_github_headers(user_token), timeout=30)
     res.raise_for_status()
     data = res.json()
     return [item["path"] for item in data.get("tree", []) if item["type"] == "blob"]
 
-def fetch_file_content(owner: str, repo: str, path: str) -> str:
+def fetch_file_content(owner: str, repo: str, path: str, user_token: str = None) -> str:
     """Fetch a single file's content from GitHub API."""
     url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}"
-    res = http_requests.get(url, headers=_github_headers(), timeout=15)
+    res = http_requests.get(url, headers=_github_headers(user_token), timeout=15)
     if res.status_code != 200:
         return ""
     data = res.json()
@@ -47,10 +48,10 @@ def fetch_file_content(owner: str, repo: str, path: str) -> str:
     except Exception:
         return ""
 
-def fetch_repo_metadata(owner: str, repo: str) -> dict:
+def fetch_repo_metadata(owner: str, repo: str, user_token: str = None) -> dict:
     """Fetch basic repo metadata (description, topics, stars)."""
     url = f"https://api.github.com/repos/{owner}/{repo}"
-    res = http_requests.get(url, headers=_github_headers(), timeout=15)
+    res = http_requests.get(url, headers=_github_headers(user_token), timeout=15)
     if res.status_code != 200:
         return {}
     return res.json()

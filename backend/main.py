@@ -53,10 +53,10 @@ def create_project(
     db.commit()
     db.refresh(project)
     
-    background_tasks.add_task(run_analysis, project.id, request.github_url)
+    background_tasks.add_task(run_analysis, project.id, request.github_url, getattr(current_user, 'github_token', None))
     return project
 
-def run_analysis(project_id: int, github_url: str):
+def run_analysis(project_id: int, github_url: str, user_github_token: str = None):
     db = database.SessionLocal()
     try:
         project = db.query(schema.Project).filter(schema.Project.id == project_id).first()
@@ -65,7 +65,7 @@ def run_analysis(project_id: int, github_url: str):
         project.progress = "Fetching repository & extracting files..."
         db.commit()
         
-        result = analyze_repository(github_url)
+        result = analyze_repository(github_url, user_github_token)
         if result.get("status") == "success":
             project.repo_analysis_json = result
             project_name = result.get("manifest", {}).get("project_name", "Unknown")

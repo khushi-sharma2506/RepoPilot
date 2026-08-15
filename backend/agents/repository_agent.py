@@ -63,17 +63,17 @@ def detect_features(files):
             features.append({"name": feature, "confidence": 0.75, "reason": "Detected from file structure"})
     return features
 
-def analyze_repository(github_url: str):
+def analyze_repository(github_url: str, user_token: str = None):
     try:
         owner, repo = parse_github_url(github_url)
 
-        metadata = fetch_repo_metadata(owner, repo)
-        files = fetch_repo_tree(owner, repo)
+        metadata = fetch_repo_metadata(owner, repo, user_token)
+        files = fetch_repo_tree(owner, repo, user_token)
 
         important_content = {}
         for fname in IMPORTANT_FILES:
             if fname in files:
-                important_content[fname] = fetch_file_content(owner, repo, fname)
+                important_content[fname] = fetch_file_content(owner, repo, fname, user_token)
 
         filtered_files = [
             f for f in files

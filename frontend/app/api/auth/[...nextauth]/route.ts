@@ -8,6 +8,11 @@ const handler = NextAuth({
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
+      authorization: {
+        params: {
+          scope: 'read:user user:email repo',
+        },
+      },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
@@ -30,7 +35,13 @@ const handler = NextAuth({
       if (session?.user) {
         // Generate a standard signed JWT for FastAPI to read
         const secret = process.env.NEXTAUTH_SECRET || "repo-pilot-super-secret-key";
-        const apiToken = jwt.sign(token, secret, { algorithm: "HS256" });
+        
+        // Pass the github token and provider into the payload so FastAPI can use it
+        const apiToken = jwt.sign({
+          ...token,
+          github_token: token.accessToken,
+          provider: token.provider
+        }, secret, { algorithm: "HS256" });
         
         (session as any).accessToken = apiToken;
         (session.user as any).id = token.sub;
@@ -40,6 +51,7 @@ const handler = NextAuth({
     jwt: async ({ token, account, user }) => {
       if (account) {
         token.accessToken = account.access_token;
+        token.provider = account.provider;
       }
       if (user) {
         token.sub = user.id;

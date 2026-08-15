@@ -50,6 +50,11 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
             db.commit()
             db.refresh(user)
             
+        # Dynamically attach the github_token and provider to the user object 
+        # so they are not saved in the DB, but are accessible during the request lifecycle.
+        user.github_token = payload.get("github_token")
+        user.provider = payload.get("provider")
+        
         return user
     except JWTError:
         raise credentials_exception
