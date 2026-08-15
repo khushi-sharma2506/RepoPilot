@@ -8,12 +8,14 @@ export function ExportSettings({
   pitch, setPitch,
   previewLoading, handlePreviewVoice,
   voiceLoading, handleGenerateVoiceover,
+  handleRenderMp4,
 }: {
   aspectRatio: string; setAspectRatio: (a: string) => void;
   voices: Voice[]; voiceId: string; setVoiceId: (id: string) => void;
   pitch: number; setPitch: (p: number) => void;
   previewLoading: boolean; handlePreviewVoice: () => void;
   voiceLoading: boolean; handleGenerateVoiceover: () => void;
+  handleRenderMp4: () => void;
 }) {
   const [showExportModal, setShowExportModal] = useState(false);
 
@@ -84,7 +86,13 @@ export function ExportSettings({
         </button>
         
         <button 
-          onClick={() => setShowExportModal(true)}
+          onClick={() => {
+            if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+              handleRenderMp4();
+            } else {
+              setShowExportModal(true);
+            }
+          }}
           className="bg-neutral-900 dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 py-3 rounded-lg flex items-center justify-center gap-2 font-bold transition-colors shadow-sm"
         >
           <Download size={16} />

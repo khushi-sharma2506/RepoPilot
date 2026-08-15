@@ -29,13 +29,33 @@ export async function pollProjectStatus(id: number) {
   return res.json();
 }
 
-export async function generateScript(id: number, storyIndex: number) {
+export async function generateScript(id: number, storyIndex: number, targetDurationSeconds: number = 75) {
   const res = await fetchWithAuth(`${API_BASE}/projects/${id}/script`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ story_index: storyIndex })
+    body: JSON.stringify({ story_index: storyIndex, target_duration_seconds: targetDurationSeconds })
   });
   if (!res.ok) throw new Error("Failed to generate script");
+  return res.json();
+}
+
+export async function updateScene(id: number, sceneIndex: number, scene: object) {
+  const res = await fetchWithAuth(`${API_BASE}/projects/${id}/scene/${sceneIndex}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ scene })
+  });
+  if (!res.ok) throw new Error("Failed to update scene");
+  return res.json();
+}
+
+export async function saveScript(id: number, scenes: object[]) {
+  const res = await fetchWithAuth(`${API_BASE}/projects/${id}/script`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ scenes })
+  });
+  if (!res.ok) throw new Error("Failed to save script");
   return res.json();
 }
 

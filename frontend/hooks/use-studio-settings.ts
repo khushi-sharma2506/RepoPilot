@@ -24,8 +24,9 @@ export function useStudioSettings(project: Project | null, setProject: (p: Proje
     setPreviewLoading(true);
     try {
       const data = await previewVoice(voiceId, `${pitch >= 0 ? "+" : ""}${pitch}Hz`);
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || '';
-      const audioUrl = data.audio_url.startsWith('/') ? `${baseUrl}${data.audio_url}` : data.audio_url;
+      if (!data.audio_url) throw new Error("Audio generation failed on backend");
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace('/api', '') : 'http://localhost:8000';
+      const audioUrl = typeof data.audio_url === 'string' && data.audio_url.startsWith('/') ? `${baseUrl}${data.audio_url}` : data.audio_url;
       const audio = new window.Audio(audioUrl);
       audio.play();
     } catch (e) {

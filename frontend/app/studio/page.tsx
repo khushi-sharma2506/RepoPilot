@@ -17,8 +17,7 @@ import { useStudioSettings } from "@/hooks/use-studio-settings";
 
 import { motion } from "motion/react";
 import Link from "next/link";
-import { LogOut, Activity, User, Camera } from "lucide-react";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Suspense } from "react";
 import { NavActions } from "@/components/shared/nav-actions";
@@ -32,7 +31,7 @@ function StudioContent() {
     },
   });
   
-  const { status, setStatus, project, setProject, progress, errorMsg, startAnalysis, selectStoryAngle } = usePilotEngine();
+  const { status, setStatus, project, setProject, progress, errorMsg, startAnalysis, selectStoryAngle, targetDuration, setTargetDuration, goBackToStories, goBackToScript } = usePilotEngine();
   const scriptAgent = useScriptAgent(project, setProject);
   const studioSettings = useStudioSettings(project, setProject, status);
 
@@ -109,10 +108,21 @@ function StudioContent() {
             )}
 
             {status === "stories" && project?.story_json && (
-              <NarrativeCards 
-                stories={project.story_json} 
-                onSelect={selectStoryAngle} 
-              />
+              <div>
+                <button
+                  onClick={() => setStatus("idle")}
+                  className="mb-6 flex items-center gap-1.5 text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                  Change Repository
+                </button>
+                <NarrativeCards 
+                  stories={project.story_json} 
+                  onSelect={selectStoryAngle}
+                  targetDuration={targetDuration}
+                  setTargetDuration={setTargetDuration}
+                />
+              </div>
             )}
 
             {status === "generating_script" && (
@@ -131,15 +141,18 @@ function StudioContent() {
                   setChatInput={scriptAgent.setChatInput}
                   chatLoading={scriptAgent.chatLoading}
                   sendMessage={scriptAgent.sendMessage}
+                  projectId={project.id}
+                  onScriptChange={(updated) => setProject({ ...project, script_json: updated })}
+                  onBack={goBackToStories}
                 />
-                <div className="flex justify-center mt-8">
+                <div className="flex justify-center mt-4">
                   <motion.button 
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setStatus("preview")}
                     className="px-12 py-4 rounded-full bg-blue-600 text-white font-bold text-lg hover:bg-blue-500 shadow-xl transition-colors"
                   >
-                    Lock Script & Render Video →
+                    Lock Script & Go to Voice Studio →
                   </motion.button>
                 </div>
               </motion.div>
@@ -147,6 +160,16 @@ function StudioContent() {
             
             {status === "preview" && project?.script_json && (
               <motion.div initial={{opacity:0, y:20}} animate={{opacity:1, y:0}} className="w-full flex flex-col gap-12">
+                {/* Back to Script button */}
+                {!studioSettings.renderLoading && !studioSettings.voiceLoading && (
+                  <button
+                    onClick={goBackToScript}
+                    className="self-start flex items-center gap-1.5 text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                    Back to Script Editor
+                  </button>
+                )}
                 {studioSettings.renderLoading || studioSettings.voiceLoading ? (
                   <div className="py-24">
                     <LoadingState 
@@ -196,6 +219,7 @@ function StudioContent() {
                   handlePreviewVoice={studioSettings.handlePreviewVoice}
                   voiceLoading={studioSettings.voiceLoading}
                   handleGenerateVoiceover={studioSettings.handleGenerateVoiceover}
+                  handleRenderMp4={studioSettings.handleRenderMp4}
                 />
               </>
             )}

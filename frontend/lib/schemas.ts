@@ -4,6 +4,7 @@ export interface Scene {
   narration: string;
   duration_seconds: number;
   audio_url?: string;
+  estimated_narration_seconds?: number;
 }
 
 export interface Script {

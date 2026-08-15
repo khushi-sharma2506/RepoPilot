@@ -1,28 +1,54 @@
 import { useState } from "react";
 import { sendChatMessage } from "@/lib/pilot-api";
-import { Project } from "@/lib/schemas";
+import { Project, Script } from "@/lib/schemas";
+
+type ChatMessage = {
+  role: string;
+  text: string;
+  isProposal?: boolean;
+  proposedScript?: Script;
+};
 
 export function useScriptAgent(project: Project | null, setProject: (p: Project) => void) {
   const [chatInput, setChatInput] = useState("");
   const [chatLoading, setChatLoading] = useState(false);
-  const [chatHistory, setChatHistory] = useState<{ role: string; text: string }[]>([
-    { role: "ai", text: "Hi! I'm the Script Editor Agent. Review the script on the left. Want it to be punchier? Need to add a specific feature? Tell me how to change it and I'll update the script instantly." }
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
+    {
+      role: "ai",
+      text: "Hi! I'm your Director Agent. I can rewrite the whole script, edit a specific scene, or adjust the duration. Try saying:\n• \"Make it 60 seconds\"\n• \"Make scene 2 more exciting\"\n• \"Rewrite everything from a developer's perspective\""
+    }
   ]);
 
-  const sendMessage = async () => {
-    if (!project?.id || !chatInput.trim()) return;
-    const userMsg = chatInput.trim();
+  const sendMessage = async (overrideMsg?: string) => {
+    const userMsg = (overrideMsg || chatInput).trim();
+    if (!project?.id || !userMsg) return;
     setChatHistory((prev) => [...prev, { role: "user", text: userMsg }]);
-    setChatInput("");
+    if (!overrideMsg) {
+      setChatInput("");
+    }
     setChatLoading(true);
 
     try {
-      const data = await sendChatMessage(project.id, userMsg, chatHistory.slice(-5));
-      const aiReply = data.reply || "I've updated the script! Check it out on the left. Anything else?";
-      setChatHistory((prev) => [...prev, { role: "ai", text: aiReply }]);
-      
+      const data = await sendChatMessage(project.id, userMsg, chatHistory.slice(-6));
+      const aiReply = data.reply || "Done! Check the scenes on the left.";
+
       if (data.updated_script) {
+        // Auto-apply immediately (per-scene edits)
         setProject({ ...project, script_json: data.updated_script });
+        setChatHistory((prev) => [...prev, { role: "ai", text: aiReply }]);
+      } else if (data.proposed_script) {
+        // Show with Yes/No confirmation
+        setChatHistory((prev) => [
+          ...prev,
+          {
+            role: "ai",
+            text: aiReply,
+            isProposal: true,
+            proposedScript: data.proposed_script,
+          },
+        ]);
+      } else {
+        setChatHistory((prev) => [...prev, { role: "ai", text: aiReply }]);
       }
     } catch (e) {
       console.error(e);
@@ -37,6 +63,6 @@ export function useScriptAgent(project: Project | null, setProject: (p: Project)
     setChatInput,
     chatLoading,
     chatHistory,
-    sendMessage
+    sendMessage,
   };
 }

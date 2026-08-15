@@ -132,12 +132,16 @@ Return:
 [{{ "title": "Story Title", "theme": "e.g. Technical, Reel Ad, User Journey", "description": "2-3 sentence story outline explaining exactly what this video will look like." }}]"""
     return _call_gemini(prompt)
 
-def generate_script(story: dict, features: list, project_name: str = ""):
+def generate_script(story: dict, features: list, project_name: str = "", target_duration_seconds: int = 75):
+    # Calculate scene count: avg 7s/scene narration pace (~2.5 words/sec, ~18 words/scene)
+    scene_count = max(5, min(20, round(target_duration_seconds / 7)))
+    words_per_scene = max(10, round(target_duration_seconds * 2.5 / scene_count))
+    
     prompt = f"""You are the Script Agent for RepoPilot.
 The project is called "{project_name}". ALWAYS refer to it as "{project_name}" in every scene, NEVER call it RepoPilot.
-Write a professional 60-90 second demo video script with 8 to 12 scenes.
-Each scene should be 6-10 seconds long.
-The total duration of all scenes MUST be at least 60 seconds.
+Write a professional demo video script with EXACTLY {scene_count} scenes totalling approximately {target_duration_seconds} seconds.
+Each scene narration should be {words_per_scene-5} to {words_per_scene+5} words long so that when spoken by an AI voice at natural pace it fills the scene duration.
+Do NOT use overly short narrations — they must genuinely fill the time.
 Return ONLY valid JSON, no markdown.
 
 Story: {json.dumps(story)[:1000]}
@@ -149,8 +153,8 @@ Return:
     {{
       "scene_number": 1,
       "visual_hint": "Detailed description of what to show on screen",
-      "narration": "What the narrator says (15-25 words per scene)",
-      "duration_seconds": 8
+      "narration": "What the narrator says ({words_per_scene-5}-{words_per_scene+5} words)",
+      "duration_seconds": {round(target_duration_seconds / scene_count, 1)}
     }}
   ]
 }}
@@ -158,28 +162,66 @@ Return:
     return _call_gemini(prompt)
 
 def refine_script(current_script: dict, chat_history: list, user_prompt: str, project_name: str = ""):
-    history_text = "\n".join([f"{msg.get('role', 'user')}: {msg.get('text', '')}" for msg in chat_history[-5:]])
-    prompt = f"""You are the Conversational Script Editor Agent for RepoPilot.
+    history_text = "\n".join([f"{msg.get('role', 'user')}: {msg.get('text', '')}" for msg in chat_history[-6:]])
+    
+    # Calculate current total duration for context
+    scenes = current_script.get("scenes", [])
+    current_total = sum(s.get("duration_seconds", 8) for s in scenes)
+    current_scene_count = len(scenes)
+    
+    prompt = f"""You are the Director Agent for RepoPilot — an expert, conversational AI script editor.
 The project is called "{project_name}".
-You are chatting with the user to help them refine their video script.
+You are chatting with the user to help them perfect their video script.
+
+Current script has {current_scene_count} scenes totalling ~{round(current_total)}s.
 
 Recent Chat History:
 {history_text}
 
-Current User Prompt:
+User's latest message:
 {user_prompt}
 
-Current Script:
+Current Script (full):
 {json.dumps(current_script)[:3000]}
 
-Your job is to read the user's prompt and either:
-1. Ask a clarifying question or make a suggestion if their request is vague or requires choices. In this case, return `updated_script: null`.
-2. Update the script based on their specific request. In this case, return the modified script in `updated_script`, AND include a `reply` telling the user what you changed.
+Your instructions:
+1. DURATION REQUEST (e.g. "make it 30 seconds", "I need 2 minutes", "trim to 1 min"):
+   - Calculate the new required scene count: target_seconds / avg_scene_duration
+   - Rewrite narrations so they are appropriately short or long for the target
+   - Set duration_seconds per scene to target_seconds / scene_count
+   - Set proposed_script to the new script
+   - In reply say: "I've rewritten your script to fit ~X seconds across Y scenes. Does this look good? Reply YES to apply it, or tell me what to change."
 
-You MUST return ONLY valid JSON in this exact schema, no markdown blocks:
+2. PER-SCENE REQUEST (e.g. "make scene 2 more exciting", "rewrite scene 4 to focus on the API"):
+   - Only modify that specific scene, preserve all others exactly
+   - Set updated_script (auto-applies immediately, no confirmation needed)
+   - In reply explain what you changed in that scene.
+
+3. FULL REWRITE (e.g. "change the whole tone to be more technical", "rewrite everything from a user's perspective"):
+   - Rewrite all scenes
+   - Set proposed_script (requires YES confirmation before applying)
+   - In reply summarize what changed and ask for confirmation.
+
+4. VAGUE / UNCLEAR request:
+   - Ask a smart clarifying question. Do NOT modify the script.
+   - Set both updated_script and proposed_script to null.
+   - Optionally proactively recommend something (e.g. "Your script is currently 90s — want me to trim it for a 60s hackathon demo?").
+
+5. After EVERY response that modifies the script, add a short proactive recommendation at the end of your reply, like:
+   - "💡 Tip: Scene 3 has a long narration (~35 words). Want me to trim it?"
+   - "💡 Your script is {round(current_total)}s total — perfect for a 1-minute demo!"
+
+Return ONLY valid JSON in this exact schema — no markdown:
 {{
-  "reply": "Your conversational response to the user here.",
-  "updated_script": null OR {{ "scenes": [ ... ] }}
+  "reply": "Your conversational response here, including any tips.",
+  "updated_script": null OR {{ "scenes": [ ... ] }},
+  "proposed_script": null OR {{ "scenes": [ ... ] }}
 }}
+
+Rules:
+- "updated_script" = apply immediately without confirmation (per-scene edits only)
+- "proposed_script" = show to user with YES/NO confirmation before applying (rewrites/duration changes)
+- Never set BOTH to non-null at the same time
+- Always refer to the project as "{project_name}", never as RepoPilot
 """
     return _call_gemini(prompt)

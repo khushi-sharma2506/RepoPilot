@@ -10,3 +10,4 @@ edge-tts
 pg8000
 python-jose[cryptography]
 passlib[bcrypt]
+mutagen

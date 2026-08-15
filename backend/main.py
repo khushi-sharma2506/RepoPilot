@@ -107,6 +107,7 @@ def get_project(project_id: int, db: Session = Depends(database.get_db), current
 
 class StorySelection(BaseModel):
     story_index: int
+    target_duration_seconds: int = 75  # default ~75 seconds
 
 @app.post("/api/projects/{project_id}/script")
 def generate_project_script(project_id: int, selection: StorySelection, db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
@@ -116,7 +117,7 @@ def generate_project_script(project_id: int, selection: StorySelection, db: Sess
     
     selected_story = project.story_json[selection.story_index]
     project_name = (project.repo_analysis_json or {}).get("manifest", {}).get("project_name", "Project")
-    script = generate_script(selected_story, project.features_json, project_name)
+    script = generate_script(selected_story, project.features_json, project_name, selection.target_duration_seconds)
     
     project.script_json = script
     db.commit()
@@ -177,14 +178,35 @@ def generate_project_voice(project_id: int, settings: VoiceSettings, db: Session
     for scene in scenes:
         narration = scene.get("narration", "")
         if narration:
-            audio_url = generate_audio(narration, settings.voice_id, settings.pitch)
-            scene["audio_url"] = audio_url
+            result = generate_audio(narration, settings.voice_id, settings.pitch)
+            scene["audio_url"] = result["audio_url"]
+            # Auto-fix duration so voice NEVER gets cut off
+            scene["duration_seconds"] = result["duration_seconds"]
             
     project.script_json = script
     flag_modified(project, "script_json")
     db.commit()
     
     return script
+
+class SingleSceneUpdate(BaseModel):
+    scene: dict
+
+@app.patch("/api/projects/{project_id}/scene/{scene_index}")
+def update_single_scene(project_id: int, scene_index: int, update: SingleSceneUpdate, db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
+    project = db.query(schema.Project).filter(schema.Project.id == project_id, schema.Project.owner_id == current_user.id).first()
+    if not project or not project.script_json:
+        raise HTTPException(status_code=404, detail="Project or script not found")
+    
+    scenes = project.script_json.get("scenes", [])
+    if scene_index < 0 or scene_index >= len(scenes):
+        raise HTTPException(status_code=400, detail="Invalid scene index")
+    
+    scenes[scene_index] = update.scene
+    project.script_json = {"scenes": scenes}
+    flag_modified(project, "script_json")
+    db.commit()
+    return project.script_json
 
 @app.get("/api/voices")
 def get_voices():
@@ -196,5 +218,5 @@ def get_voices():
 def preview_voice(settings: VoiceSettings):
     from services.tts_service import generate_audio
     text = "Hello, this is a demo of how I sound. I hope you like my voice!"
-    audio_url = generate_audio(text, settings.voice_id, settings.pitch)
-    return {"audio_url": audio_url}
+    audio_result = generate_audio(text, settings.voice_id, settings.pitch)
+    return {"audio_url": audio_result["audio_url"]}

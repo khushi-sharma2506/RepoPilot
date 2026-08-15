@@ -40,7 +40,7 @@ const SceneCard = ({ scene, durationFrames }) => {
           </p>
         </div>
       </div>
-      {scene.audio_url && <Audio src={"http://localhost:3000" + scene.audio_url} />}
+      {scene.audio_url && <Audio src={scene.audio_url.startsWith('/') ? ("http://localhost:8000" + scene.audio_url) : scene.audio_url} />}
     </AbsoluteFill>
   );
 };

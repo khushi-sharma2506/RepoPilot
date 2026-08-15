@@ -14,6 +14,7 @@ export function usePilotEngine() {
   const [project, setProject] = useState<Project | null>(null);
   const [progress, setProgress] = useState<string>("Initializing...");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [targetDuration, setTargetDuration] = useState<number>(75);
 
   useEffect(() => {
     if (initialProjectId && status === "idle") {
@@ -24,7 +25,7 @@ export function usePilotEngine() {
             setStatus("failed");
             setErrorMsg(data.error_message || "Analysis failed.");
           } else if (data.script_json) {
-            setStatus("preview"); // Default to preview if script exists
+            setStatus("preview");
           } else if (data.story_json) {
             setStatus("stories");
           } else if (data.status === "analyzing") {
@@ -85,7 +86,7 @@ export function usePilotEngine() {
     if (!project?.id) return;
     setStatus("generating_script");
     try {
-      const data = await generateScript(project.id, index);
+      const data = await generateScript(project.id, index, targetDuration);
       setProject({ ...project, script_json: data });
       setStatus("script_editing");
     } catch (err) {
@@ -94,12 +95,24 @@ export function usePilotEngine() {
     }
   };
 
-  const resetPilot = () => {
+  // ── Back navigation (no re-upload needed) ──
+  const goBackToIdle = () => {
     setStatus("idle");
     setProject(null);
     setErrorMsg(null);
     router.replace("?", { scroll: false });
   };
+
+  const goBackToStories = () => {
+    // Keep project (repo analysis preserved), just go back to narrative selection
+    setStatus("stories");
+  };
+
+  const goBackToScript = () => {
+    setStatus("script_editing");
+  };
+
+  const resetPilot = goBackToIdle;
 
   return {
     status,
@@ -108,8 +121,13 @@ export function usePilotEngine() {
     setProject,
     progress,
     errorMsg,
+    targetDuration,
+    setTargetDuration,
     startAnalysis,
     selectStoryAngle,
+    goBackToIdle,
+    goBackToStories,
+    goBackToScript,
     resetPilot
   };
 }
