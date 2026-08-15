@@ -127,7 +127,7 @@ def run_analysis(project_id: int, github_url: str, user_github_token: str = None
 
 @app.get("/api/projects")
 def get_user_projects(db: Session = Depends(database.get_db), current_user: schema.User = Depends(get_current_user)):
-    projects = db.query(schema.Project).filter(schema.Project.owner_id == current_user.id).order_by(schema.Project.id.desc()).limit(50).all()
+    projects = db.query(schema.Project).filter(schema.Project.owner_id == current_user.id, schema.Project.status != "deleted").order_by(schema.Project.id.desc()).limit(50).all()
     # We can strip heavy JSON fields if needed, but returning them for 50 projects is generally okay for this app.
     return {"projects": projects}
 
@@ -144,9 +144,9 @@ def delete_project(project_id: int, db: Session = Depends(database.get_db), curr
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
     
-    db.delete(project)
+    project.status = "deleted"
     db.commit()
-    return {"message": "Project deleted successfully"}
+    return {"message": "Project soft-deleted successfully"}
 
 class StorySelection(BaseModel):
     story_index: int
