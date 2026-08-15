@@ -124,6 +124,8 @@ def analyze_repository(github_url: str, user_token: str = None):
         error_msg = str(e)
         if "404 Client Error" in error_msg:
             error_msg = "This repository could not be found. It may be private or deleted. If it is private, please temporarily make it public on GitHub to analyze it!"
+        elif "409 Client Error" in error_msg:
+            error_msg = "This repository appears to be completely empty! Please commit some code to the repository before analyzing it."
             
         return {
             "status": "error",
