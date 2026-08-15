@@ -36,10 +36,13 @@ export function ExportSettings({
 
       // Add Audio
       const scenes = project.script_json.scenes;
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace('/api', '') : 'http://localhost:8000';
       for (let i = 0; i < scenes.length; i++) {
         if (scenes[i].audio_url) {
           try {
-            const response = await fetch(scenes[i].audio_url);
+            const rawUrl = scenes[i].audio_url;
+            const audioUrl = typeof rawUrl === 'string' && rawUrl.startsWith('/') ? `${baseUrl}${rawUrl}` : rawUrl;
+            const response = await fetch(audioUrl);
             const blob = await response.blob();
             zip.file(`audio/scene_${i + 1}.mp3`, blob);
           } catch (e) {
