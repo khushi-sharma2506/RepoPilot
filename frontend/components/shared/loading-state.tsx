@@ -24,7 +24,7 @@ export function LoadingState({ title, subtitle, type = "default" }: { title: str
         <p className="text-neutral-600 dark:text-neutral-400">{subtitle}</p>
         
         {title.includes("Analyzing") && (
-          <p className="text-sm text-neutral-500 dark:text-neutral-500 mt-4 italic">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-4 italic">
             This process typically takes 30-60 seconds as the AI reads your repository.
           </p>
         )}

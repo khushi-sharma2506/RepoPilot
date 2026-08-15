@@ -17,6 +17,7 @@ import { useStudioSettings } from "@/hooks/use-studio-settings";
 
 import { motion } from "motion/react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Suspense } from "react";
@@ -44,7 +45,7 @@ function StudioContent() {
       {/* Workspace Navbar */}
       <nav className="h-16 flex items-center justify-between px-4 md:px-6 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 relative z-50">
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition">
-          <img src="/logo.png" alt="RepoPilot Logo" className="w-8 h-8 rounded-full object-cover" />
+          <Image src="/logo.png" alt="RepoPilot Logo" width={32} height={32} priority className="rounded-full object-cover" />
           <span className="text-lg font-bold text-neutral-900 dark:text-white">
             Repo<span className="text-blue-500">Pilot</span> <span className="text-neutral-500 dark:text-neutral-400 font-normal">Studio</span>
           </span>
