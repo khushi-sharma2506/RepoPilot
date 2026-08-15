@@ -63,6 +63,8 @@ Using RepoPilot takes less than 2 minutes:
 | Feature | Description |
 |---|---|
 | **Projects Dashboard** | Manage all your generated videos in one place with a sleek interface and soft-delete capabilities |
+| **Download Assets (.ZIP)** | Instantly download your generated scripts and high-quality MP3 voiceovers as a ZIP archive to use in any external video editor |
+| **Custom UI/UX Polish** | Features sleek, animated Tailwind CSS toast notifications instead of clunky native browser alerts |
 | **Mobile-Ready Studio** | Fully responsive design ensures the script editor and AI director work flawlessly on phones and tablets |
 | **Autonomous Codebase Analysis** | Deep-dives into your repo via the GitHub API to understand features, architecture, and value |
 | **AI Narrative Generation** | Creates tailored story angles — "The Setup", "Feature Deep-Dive", "The Origin Story" — and writes synchronized scripts |
