@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
-import { Play, Calendar, FolderGit, ExternalLink, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
+import { Play, Calendar, FolderGit, ExternalLink, Loader2, Plus, Sparkles, Trash2, AlertTriangle, X } from "lucide-react";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -21,6 +21,8 @@ export default function Dashboard() {
 
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [projectToDelete, setProjectToDelete] = useState<number | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (authStatus !== "authenticated") return;
@@ -32,14 +34,17 @@ export default function Dashboard() {
       .finally(() => setLoading(false));
   }, [authStatus]);
 
-  const handleDelete = async (e: React.MouseEvent, id: number) => {
-    e.preventDefault();
-    if (!confirm("Are you sure you want to delete this project? This cannot be undone.")) return;
+  const confirmDelete = async () => {
+    if (!projectToDelete) return;
+    setIsDeleting(true);
     try {
-      await deleteProject(id);
-      setProjects((prev) => prev.filter((p) => p.id !== id));
+      await deleteProject(projectToDelete);
+      setProjects((prev) => prev.filter((p) => p.id !== projectToDelete));
+      setProjectToDelete(null);
     } catch (err) {
       alert("Failed to delete project");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -115,7 +120,10 @@ export default function Dashboard() {
                         {statusText}
                       </span>
                       <button 
-                        onClick={(e) => handleDelete(e, project.id)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setProjectToDelete(project.id);
+                        }}
                         className="p-1.5 text-neutral-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors"
                         title="Delete project"
                       >
@@ -148,6 +156,40 @@ export default function Dashboard() {
           </div>
         )}
       </main>
+
+      {/* Delete Confirmation Modal */}
+      {projectToDelete !== null && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-6">
+              <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-4">
+                <AlertTriangle className="text-red-600 dark:text-red-400" size={24} />
+              </div>
+              <h2 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">Delete Project</h2>
+              <p className="text-neutral-500 dark:text-neutral-400 mb-6">
+                Are you sure you want to delete this project? This action cannot be undone and you will lose all generated scripts and audio.
+              </p>
+              <div className="flex items-center justify-end gap-3">
+                <button
+                  onClick={() => setProjectToDelete(null)}
+                  disabled={isDeleting}
+                  className="px-4 py-2 text-sm font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  disabled={isDeleting}
+                  className="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition disabled:opacity-50 flex items-center gap-2"
+                >
+                  {isDeleting ? <Loader2 className="animate-spin" size={16} /> : <Trash2 size={16} />}
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
