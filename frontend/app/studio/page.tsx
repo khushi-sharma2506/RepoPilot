@@ -221,6 +221,7 @@ function StudioContent() {
                   voiceLoading={studioSettings.voiceLoading}
                   handleGenerateVoiceover={studioSettings.handleGenerateVoiceover}
                   handleRenderMp4={studioSettings.handleRenderMp4}
+                  project={project}
                 />
               </>
             )}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Voice } from "@/lib/schemas";
-import { Play, Mic, Download, Terminal, X } from "lucide-react";
+import { Play, Mic, Download, Terminal, X, Archive, Loader2 } from "lucide-react";
+import JSZip from "jszip";
 
 export function ExportSettings({
   aspectRatio, setAspectRatio,
@@ -16,8 +17,53 @@ export function ExportSettings({
   previewLoading: boolean; handlePreviewVoice: () => void;
   voiceLoading: boolean; handleGenerateVoiceover: () => void;
   handleRenderMp4: () => void;
+  project?: any;
 }) {
   const [showExportModal, setShowExportModal] = useState(false);
+  const [isZipping, setIsZipping] = useState(false);
+
+  const handleDownloadAssets = async () => {
+    if (!project || !project.script_json) return;
+    setIsZipping(true);
+    try {
+      const zip = new JSZip();
+      
+      // Add Script
+      const scriptText = project.script_json.scenes.map((s: any, i: number) => `Scene ${i + 1}:\n${s.voiceover_text}`).join('\n\n');
+      zip.file("script.txt", scriptText);
+      zip.file("script.json", JSON.stringify(project.script_json, null, 2));
+
+      // Add Audio
+      const scenes = project.script_json.scenes;
+      for (let i = 0; i < scenes.length; i++) {
+        if (scenes[i].voiceover_url) {
+          try {
+            const response = await fetch(scenes[i].voiceover_url);
+            const blob = await response.blob();
+            zip.file(`audio/scene_${i + 1}.mp3`, blob);
+          } catch (e) {
+            console.error(`Failed to fetch audio for scene ${i+1}`);
+          }
+        }
+      }
+
+      // Generate and Download
+      const content = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(content);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${project.github_url.split('/').pop() || 'repopilot'}_assets.zip`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to download assets");
+    } finally {
+      setIsZipping(false);
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto w-full bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-6 md:p-8 rounded-2xl space-y-8 mt-8 shadow-sm">
@@ -139,8 +185,17 @@ export function ExportSettings({
             </div>
             
             <button 
+              onClick={handleDownloadAssets}
+              disabled={isZipping}
+              className="w-full mt-6 bg-emerald-600 dark:bg-emerald-500 text-white font-bold py-3 rounded-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors flex items-center justify-center gap-2"
+            >
+              {isZipping ? <Loader2 size={20} className="animate-spin" /> : <Archive size={20} />}
+              {isZipping ? "Packaging ZIP..." : "Download Assets (.ZIP)"}
+            </button>
+
+            <button 
               onClick={() => setShowExportModal(false)}
-              className="w-full mt-6 bg-neutral-900 dark:bg-white text-white dark:text-black font-bold py-3 rounded-lg hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
+              className="w-full mt-3 bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white font-bold py-3 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
             >
               Understood
             </button>
