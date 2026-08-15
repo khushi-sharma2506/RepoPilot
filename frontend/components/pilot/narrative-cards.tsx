@@ -6,8 +6,8 @@ export function NarrativeCards({ stories, onSelect }: { stories: StoryAngle[]; o
   return (
     <div className="space-y-8">
       <div className="text-center space-y-2">
-        <h2 className="text-3xl font-bold text-white">Choose a Narrative Angle</h2>
-        <p className="text-neutral-400">The Story Agent has recommended these angles for your demo.</p>
+        <h2 className="text-3xl font-bold text-neutral-900 dark:text-white">Choose a Narrative Angle</h2>
+        <p className="text-neutral-600 dark:text-neutral-400">The Story Agent has recommended these angles for your demo.</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -15,17 +15,17 @@ export function NarrativeCards({ stories, onSelect }: { stories: StoryAngle[]; o
           <div 
             key={idx}
             onClick={() => onSelect(idx)}
-            className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 cursor-pointer hover:border-neutral-700 hover:bg-neutral-800/50 transition-all flex flex-col group"
+            className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 cursor-pointer hover:border-neutral-400 dark:hover:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-all flex flex-col group shadow-sm"
           >
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-bold px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-wider">
+              <span className="text-xs font-bold px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 uppercase tracking-wider">
                 {story.theme}
               </span>
-              <ChevronRight className="text-neutral-600 group-hover:text-white transition-colors" />
+              <ChevronRight className="text-neutral-400 dark:text-neutral-600 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors" />
             </div>
             
-            <h3 className="text-xl font-semibold text-white mb-2">{story.title}</h3>
-            <p className="text-neutral-400 text-sm leading-relaxed flex-1">
+            <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-2">{story.title}</h3>
+            <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed flex-1">
               {story.description}
             </p>
           </div>
