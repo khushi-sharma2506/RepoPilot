@@ -18,16 +18,16 @@ export function ExportSettings({
   const [showExportModal, setShowExportModal] = useState(false);
 
   return (
-    <div className="max-w-4xl mx-auto bg-neutral-900 border border-neutral-800 p-8 rounded-2xl space-y-8 mt-8">
-      <h3 className="text-2xl font-bold text-white border-b border-neutral-800 pb-4">Video & Audio Settings</h3>
+    <div className="max-w-4xl mx-auto w-full bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-6 md:p-8 rounded-2xl space-y-8 mt-8 shadow-sm">
+      <h3 className="text-xl md:text-2xl font-bold text-neutral-900 dark:text-white border-b border-neutral-200 dark:border-neutral-800 pb-4">Video & Audio Settings</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="space-y-3">
-          <label className="text-sm font-semibold text-neutral-400 uppercase tracking-wider">Aspect Ratio</label>
+          <label className="text-sm font-semibold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider">Aspect Ratio</label>
           <select 
             value={aspectRatio}
             onChange={(e) => setAspectRatio(e.target.value)}
-            className="w-full bg-neutral-950 border border-neutral-800 rounded-lg p-3 text-white focus:outline-none focus:border-neutral-600"
+            className="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-lg p-3 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600"
           >
             <option value="16:9">Landscape (16:9) - YouTube/PC</option>
             <option value="9:16">Portrait (9:16) - Reels/Shorts</option>
@@ -35,11 +35,11 @@ export function ExportSettings({
         </div>
 
         <div className="space-y-3">
-          <label className="text-sm font-semibold text-neutral-400 uppercase tracking-wider">Select AI Voice</label>
+          <label className="text-sm font-semibold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider">Select AI Voice</label>
           <select 
             value={voiceId}
             onChange={(e) => setVoiceId(e.target.value)}
-            className="w-full bg-neutral-950 border border-neutral-800 rounded-lg p-3 text-white focus:outline-none focus:border-neutral-600"
+            className="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-lg p-3 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600"
           >
             {voices.map((v, i) => (
               <option key={i} value={v.ShortName}>{v.FriendlyName || v.ShortName} ({v.Gender})</option>
@@ -49,9 +49,9 @@ export function ExportSettings({
         </div>
 
         <div className="space-y-3">
-          <label className="text-sm font-semibold text-neutral-400 uppercase tracking-wider flex justify-between">
+          <label className="text-sm font-semibold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider flex justify-between">
             <span>Voice Pitch</span>
-            <span className="text-blue-400">{pitch > 0 ? `+${pitch}` : pitch}Hz</span>
+            <span className="text-blue-600 dark:text-blue-400">{pitch > 0 ? `+${pitch}` : pitch}Hz</span>
           </label>
           <input 
             type="range" 
@@ -64,11 +64,11 @@ export function ExportSettings({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-neutral-800">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-neutral-200 dark:border-neutral-800">
         <button 
           onClick={handlePreviewVoice}
           disabled={previewLoading}
-          className="bg-neutral-800 text-white hover:bg-neutral-700 disabled:opacity-50 py-3 rounded-lg flex items-center justify-center gap-2 font-medium transition-colors"
+          className="bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white hover:bg-neutral-200 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-transparent disabled:opacity-50 py-3 rounded-lg flex items-center justify-center gap-2 font-medium transition-colors"
         >
           {previewLoading ? <span className="animate-spin">●</span> : <Play size={16} />}
           Test Voice Pitch
@@ -77,7 +77,7 @@ export function ExportSettings({
         <button 
           onClick={handleGenerateVoiceover}
           disabled={voiceLoading}
-          className="bg-neutral-800 text-white hover:bg-neutral-700 disabled:opacity-50 py-3 rounded-lg flex items-center justify-center gap-2 font-medium transition-colors"
+          className="bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white hover:bg-neutral-200 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-transparent disabled:opacity-50 py-3 rounded-lg flex items-center justify-center gap-2 font-medium transition-colors"
         >
           {voiceLoading ? <span className="animate-spin">●</span> : <Mic size={16} />}
           Generate All Voiceovers
@@ -85,7 +85,7 @@ export function ExportSettings({
         
         <button 
           onClick={() => setShowExportModal(true)}
-          className="bg-white text-black hover:bg-neutral-200 py-3 rounded-lg flex items-center justify-center gap-2 font-bold transition-colors"
+          className="bg-neutral-900 dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 py-3 rounded-lg flex items-center justify-center gap-2 font-bold transition-colors shadow-sm"
         >
           <Download size={16} />
           Export MP4
@@ -94,10 +94,10 @@ export function ExportSettings({
 
       {showExportModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 md:p-8 max-w-xl w-full shadow-2xl relative">
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 md:p-8 max-w-xl w-full shadow-2xl relative">
             <button 
               onClick={() => setShowExportModal(false)}
-              className="absolute top-4 right-4 text-neutral-400 hover:text-white"
+              className="absolute top-4 right-4 text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
             >
               <X size={24} />
             </button>
@@ -107,39 +107,32 @@ export function ExportSettings({
                 <Download size={24} />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-white">Local Export Required</h2>
-                <p className="text-neutral-400 text-sm">Vercel Free Tier Limitations</p>
+                <h3 className="text-xl font-bold text-neutral-900 dark:text-white">Local Rendering Required</h3>
               </div>
             </div>
 
-            <div className="space-y-4 text-neutral-300">
+            <div className="space-y-4 text-neutral-600 dark:text-neutral-300">
               <p>
-                RepoPilot generates high-quality 1080p MP4s by running a headless Google Chrome browser and FFMPEG underneath the hood. 
-              </p>
-              <p>
-                Because Vercel's free tier has a strict <strong className="text-white">10-second timeout</strong> and <strong className="text-white">50MB size limit</strong>, it is physically impossible to render videos on the live cloud server.
+                Vercel Serverless Functions have a strict <strong className="text-neutral-900 dark:text-white">10 second timeout</strong> limit, which is not enough time to run heavy video compilation like FFMPEG and Remotion. 
               </p>
               
-              <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-5 mt-4">
-                <p className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                  <Terminal size={16} className="text-blue-400" />
+              <div className="bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl p-5 mt-4">
+                <p className="text-sm font-semibold text-neutral-900 dark:text-white mb-3 flex items-center gap-2">
+                  <Terminal size={16} className="text-blue-500 dark:text-blue-400" />
                   Run this locally to render your MP4:
                 </p>
-                <code className="block text-emerald-400 text-sm font-mono whitespace-pre-wrap">
-                  git clone https://github.com/khushi-sharma2506/RepoPilot.git{"\n"}
-                  cd RepoPilot/frontend{"\n"}
-                  npm install{"\n"}
-                  npm run dev
-                </code>
+                <ol className="list-decimal pl-5 space-y-2 text-neutral-600 dark:text-neutral-300">
+                  <li>Clone this repository to your local machine.</li>
+                  <li>Run <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-neutral-900 dark:text-white">npm install</code></li>
+                  <li>Run <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-neutral-900 dark:text-white">npm run dev</code></li>
+                  <li>Visit localhost:3000 and the Export button will work perfectly!</li>
+                </ol>
               </div>
-              <p className="text-xs text-neutral-500 text-center mt-4">
-                Open localhost:3000, hit Export MP4, and it will save directly to your computer!
-              </p>
             </div>
             
             <button 
               onClick={() => setShowExportModal(false)}
-              className="w-full mt-6 bg-white text-black font-bold py-3 rounded-lg hover:bg-neutral-200 transition-colors"
+              className="w-full mt-6 bg-neutral-900 dark:bg-white text-white dark:text-black font-bold py-3 rounded-lg hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
             >
               Understood
             </button>

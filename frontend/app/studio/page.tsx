@@ -17,10 +17,11 @@ import { useStudioSettings } from "@/hooks/use-studio-settings";
 
 import { motion } from "motion/react";
 import Link from "next/link";
-import { LogOut, Activity, User } from "lucide-react";
+import { LogOut, Activity, User, Camera } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Suspense } from "react";
+import { NavActions } from "@/components/shared/nav-actions";
 
 function StudioContent() {
   const router = useRouter();
@@ -42,53 +43,31 @@ function StudioContent() {
       <div style={{ position: "fixed", top: "0", left: "0", right: "0", bottom: "0", background: "radial-gradient(ellipse at top, rgba(var(--p-accent-rgb), 0.08), transparent 70%)", pointerEvents: "none" }} />
       
       {/* Workspace Navbar */}
-      <nav className="h-16 flex items-center justify-between px-6 bg-neutral-900/80 backdrop-blur-md border-b border-neutral-800 relative z-50">
+      <nav className="h-16 flex items-center justify-between px-4 md:px-6 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 relative z-50">
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition">
           <img src="/logo.png" alt="RepoPilot Logo" className="w-8 h-8 rounded-full object-cover" />
-          <span className="text-lg font-bold text-white">
-            Repo<span className="text-blue-500">Pilot</span> <span className="text-neutral-400 font-normal">Studio</span>
+          <span className="text-lg font-bold text-neutral-900 dark:text-white">
+            Repo<span className="text-blue-500">Pilot</span> <span className="text-neutral-500 dark:text-neutral-400 font-normal">Studio</span>
           </span>
         </Link>
-        <div className="flex items-center gap-4">
-          {session?.user && (
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-neutral-800/50 rounded-full border border-neutral-800">
-              {session.user.image ? (
-                <img src={session.user.image} alt="User" className="w-5 h-5 rounded-full" />
-              ) : (
-                <User size={14} className="text-neutral-400" />
-              )}
-              <span className="text-xs font-medium text-neutral-300">{session.user.name || session.user.email}</span>
-            </div>
-          )}
-          <div className="text-xs font-medium text-emerald-400 bg-neutral-900 px-3 py-1.5 rounded-full border border-neutral-800 flex items-center gap-2">
-            <Activity size={14} />
-            Agents Online
-          </div>
-          <button 
-            onClick={() => signOut({ callbackUrl: "/login" })} 
-            className="text-neutral-400 hover:text-white transition bg-transparent border-none cursor-pointer p-0"
-            title="Log out"
-          >
-            <LogOut size={18} />
-          </button>
-        </div>
+        <NavActions />
       </nav>
 
       {/* Main Content Area */}
-      <main className="relative z-10 flex flex-col items-center px-8 py-12 pb-24">
+      <main className="relative z-10 flex flex-col items-center px-4 md:px-8 py-8 md:py-12 pb-24">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="w-full max-w-6xl flex flex-col gap-12"
+          className="w-full max-w-6xl flex flex-col gap-8 md:gap-12"
         >
           {/* Header */}
           {status === "idle" && (
-            <div className="text-center pt-12 pb-8">
-              <h1 className="text-4xl font-bold text-white mb-4">
+            <div className="text-center pt-8 md:pt-12 pb-4 md:pb-8">
+              <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-4">
                 New Project
               </h1>
-              <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
+              <p className="text-base md:text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto px-4">
                 Paste your GitHub URL to start generating your cinematic presentation.
               </p>
             </div>
@@ -178,20 +157,20 @@ function StudioContent() {
                   </div>
                 ) : (
                   <>
-                    <div className="text-center">
-                      <h2 className="text-4xl font-bold text-white mb-4">Studio Render</h2>
-                      <p className="text-lg text-neutral-400">
+                    <div className="text-center px-4">
+                      <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Studio Render</h2>
+                      <p className="text-base md:text-lg text-neutral-600 dark:text-neutral-400">
                         {project.script_json?.scenes?.some(s => !s.audio_url) 
                           ? "Initially there's no audio. Choose your preferable voice below and click Generate All Voiceovers!" 
                           : "Preview your video and customize voiceovers."}
                       </p>
                       
-                      <div className="max-w-3xl mx-auto bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-6 mt-8 text-left">
-                        <h3 className="text-lg font-semibold text-emerald-400 mb-2 flex items-center gap-2">
+                      <div className="max-w-3xl mx-auto bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-500/30 rounded-xl p-6 mt-8 text-left shadow-sm">
+                        <h3 className="text-lg font-semibold text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-2">
                           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                           How to use this Green Screen Template
                         </h3>
-                        <p className="text-neutral-300 text-sm leading-relaxed">
+                        <p className="text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed">
                           RepoPilot generates a cinematic <strong>Chroma Key (Green Screen)</strong> template featuring your AI voiceovers, timed subtitles, and dynamic overlays. 
                           <br /><br />
                           Hit <strong>Export MP4</strong>, drag the video into any editor (like Premiere Pro, CapCut, or AfterEffects), and apply a <em>Green Screen / Keying</em> filter to remove the background. 
