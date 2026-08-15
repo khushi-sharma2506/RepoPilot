@@ -36,6 +36,33 @@ class RepoRequest(BaseModel):
 def home():
     return {"message": "RepoPilot backend is running"}
 
+@app.get("/api/github/repos")
+def get_user_repos(current_user: schema.User = Depends(get_current_user)):
+    token = getattr(current_user, "github_token", None)
+    if not token:
+        raise HTTPException(status_code=401, detail="GitHub token not available. Please sign in with GitHub.")
+    
+    import requests
+    headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"}
+    # Fetch user's own repos, up to 100, sorted by recently updated
+    res = requests.get("https://api.github.com/user/repos?sort=updated&per_page=100", headers=headers)
+    if res.status_code != 200:
+        raise HTTPException(status_code=res.status_code, detail="Failed to fetch repositories from GitHub.")
+    
+    data = res.json()
+    repos = [
+        {
+            "id": r["id"], 
+            "name": r["name"], 
+            "full_name": r["full_name"], 
+            "private": r["private"], 
+            "html_url": r["html_url"], 
+            "description": r["description"]
+        } 
+        for r in data
+    ]
+    return {"repos": repos}
+
 @app.post("/api/projects")
 def create_project(
     request: RepoRequest, 

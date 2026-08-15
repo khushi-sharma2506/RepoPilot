@@ -30,13 +30,6 @@ export default function LoginPage() {
     setLoading(false);
   };
 
-  const handleGoogleAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    await signIn("google", { callbackUrl: "/studio" });
-    setLoading(false);
-  };
-
   return (
     <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--p-bg)", position: "relative", overflow: "hidden" }}>
       <InteractiveBG />
@@ -92,11 +85,6 @@ export default function LoginPage() {
               <button onClick={handleGithubAuth} disabled={loading} style={{ width: "100%", height: 52, borderRadius: 14, background: "var(--p-accent)", color: "#fff", border: "none", fontSize: 15, fontWeight: 700, cursor: loading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 8, boxShadow: "0 10px 25px var(--p-accent-glow)" }}>
                 {loading ? "PROCESSING..." : "CONTINUE WITH GITHUB"}
                 {!loading && <GitBranch size={18} />}
-              </button>
-              
-              <button onClick={handleGoogleAuth} disabled={loading} style={{ width: "100%", height: 52, borderRadius: 14, background: "rgba(255,255,255,0.05)", color: "var(--p-fg)", border: "1px solid var(--p-border)", fontSize: 15, fontWeight: 700, cursor: loading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
-                {loading ? "PROCESSING..." : "CONTINUE WITH GOOGLE"}
-                {!loading && <Globe size={18} />}
               </button>
             </div>
           </motion.div>

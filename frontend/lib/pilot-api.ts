@@ -23,6 +23,12 @@ export async function analyzeRepo(url: string) {
   return res.json();
 }
 
+export async function fetchUserRepos() {
+  const res = await fetchWithAuth(`${API_BASE}/github/repos`);
+  if (!res.ok) throw new Error("Failed to fetch user repositories");
+  return res.json();
+}
+
 export async function pollProjectStatus(id: number) {
   const res = await fetchWithAuth(`${API_BASE}/projects/${id}`);
   if (!res.ok) throw new Error("Failed to poll status");
