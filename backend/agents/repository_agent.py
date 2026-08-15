@@ -63,7 +63,17 @@ def detect_features(files):
             features.append({"name": feature, "confidence": 0.75, "reason": "Detected from file structure"})
     return features
 
+import re
+
 def analyze_repository(github_url: str, user_token: str = None):
+    # Basic validation for GitHub URLs
+    if not re.match(r"^https?://(www\.)?github\.com/[\w.-]+/[\w.-]+/?$", github_url.strip()):
+        return {
+            "status": "error",
+            "github_url": github_url,
+            "error": "Invalid URL provided. Please provide a valid GitHub repository URL (e.g. https://github.com/owner/repo)."
+        }
+    
     try:
         owner, repo = parse_github_url(github_url)
 
@@ -113,7 +123,7 @@ def analyze_repository(github_url: str, user_token: str = None):
         
         error_msg = str(e)
         if "404 Client Error" in error_msg:
-            error_msg = "You have provided a wrong URL or a private repository link. To access a private repository, you must authorize RepoPilot with full GitHub repository access."
+            error_msg = "This repository could not be found. It may be private or deleted. If it is private, please temporarily make it public on GitHub to analyze it!"
             
         return {
             "status": "error",
