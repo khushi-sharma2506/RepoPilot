@@ -119,7 +119,7 @@ export function RepoAnalyzer({ onAnalyze }: { onAnalyze: (url: string) => void }
 
       <div className="mt-6 space-y-4">
         <div className="relative">
-          <GitBranch className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" size={18} />
+          <GitBranch className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-400" size={18} />
           <input 
             type="url" 
             value={url}

@@ -84,7 +84,7 @@ export function NarrativeCards({
             <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed flex-1">
               {story.description}
             </p>
-            <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800 text-xs text-neutral-500 dark:text-neutral-500">
+            <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800 text-xs text-neutral-500 dark:text-neutral-400">
               ~{Math.max(5, Math.round(targetDuration / 7))} scenes · ~{targetDuration}s
             </div>
           </div>

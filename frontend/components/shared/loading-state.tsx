@@ -37,7 +37,7 @@ export function LoadingState({ title, subtitle, type = "default" }: { title: str
                 style={{ width: `${Math.min(progress, 100)}%` }}
               ></div>
             </div>
-            <div className="flex justify-between text-[10px] md:text-xs font-medium text-neutral-400 dark:text-neutral-500 uppercase tracking-wide px-1">
+            <div className="flex justify-between text-[10px] md:text-xs font-medium text-neutral-400 dark:text-neutral-400 uppercase tracking-wide px-1">
               <span className={progress >= 0 ? "text-blue-600 dark:text-blue-400" : ""}>Bundling</span>
               <span className={progress >= 30 ? "text-blue-600 dark:text-blue-400" : ""}>Rendering Frames</span>
               <span className={progress >= 60 ? "text-blue-600 dark:text-blue-400" : ""}>Audio Mix</span>
@@ -54,7 +54,7 @@ export function LoadingState({ title, subtitle, type = "default" }: { title: str
                 style={{ width: `${Math.min(progress, 100)}%` }}
               ></div>
             </div>
-            <div className="flex justify-between text-[10px] md:text-xs font-medium text-neutral-400 dark:text-neutral-500 uppercase tracking-wide px-1">
+            <div className="flex justify-between text-[10px] md:text-xs font-medium text-neutral-400 dark:text-neutral-400 uppercase tracking-wide px-1">
               <span className={progress >= 0 ? "text-emerald-600 dark:text-emerald-400" : ""}>Connecting</span>
               <span className={progress >= 25 ? "text-emerald-600 dark:text-emerald-400" : ""}>Synthesizing</span>
               <span className={progress >= 60 ? "text-emerald-600 dark:text-emerald-400" : ""}>Applying Pitch</span>

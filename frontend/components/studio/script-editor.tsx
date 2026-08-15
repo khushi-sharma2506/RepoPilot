@@ -52,7 +52,7 @@ function SceneCard({
       {/* Scene header */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono font-bold text-neutral-500 dark:text-neutral-500">SCENE {scene.scene_number}</span>
+          <span className="text-xs font-mono font-bold text-neutral-500 dark:text-neutral-400">SCENE {scene.scene_number}</span>
           {mismatch && !editing && (
             <button
               onClick={() => {
@@ -70,13 +70,13 @@ function SceneCard({
         <div className="flex items-center gap-1">
           {!editing ? (
             <>
-              <button onClick={() => setEditing(true)} className="p-1.5 rounded-lg text-neutral-400 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition">
+              <button onClick={() => setEditing(true)} className="p-1.5 rounded-lg text-neutral-400 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition">
                 <Pencil size={14} />
               </button>
-              <button onClick={() => onAddAfter(idx)} className="p-1.5 rounded-lg text-neutral-400 dark:text-neutral-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition">
+              <button onClick={() => onAddAfter(idx)} className="p-1.5 rounded-lg text-neutral-400 dark:text-neutral-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition">
                 <Plus size={14} />
               </button>
-              <button onClick={() => onDelete(idx)} className="p-1.5 rounded-lg text-neutral-400 dark:text-neutral-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition">
+              <button onClick={() => onDelete(idx)} className="p-1.5 rounded-lg text-neutral-400 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition">
                 <Trash2 size={14} />
               </button>
             </>
@@ -113,7 +113,7 @@ function SceneCard({
                 onChange={(e) => setDraft({ ...draft, narration: e.target.value })}
                 className="w-full text-sm px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none"
               />
-              <div className="text-xs text-neutral-400 dark:text-neutral-500 mt-1">
+              <div className="text-xs text-neutral-400 dark:text-neutral-400 mt-1">
                 ~{draft.narration.trim().split(/\s+/).length} words · ~{Math.ceil(draft.narration.trim().split(/\s+/).length / 2.5)}s to speak
               </div>
             </div>
@@ -148,13 +148,13 @@ function SceneCard({
           </>
         ) : (
           <>
-            <div className="text-xs text-neutral-500 dark:text-neutral-500 italic">🎥 {scene.visual_hint}</div>
+            <div className="text-xs text-neutral-500 dark:text-neutral-400 italic">🎥 {scene.visual_hint}</div>
             <div className="text-sm text-neutral-800 dark:text-neutral-200 leading-relaxed">"{scene.narration}"</div>
             <div className="flex items-center justify-between text-xs">
               <span className={`font-medium ${mismatch ? "text-amber-600 dark:text-amber-400" : "text-blue-600 dark:text-blue-400"}`}>
                 {scene.duration_seconds}s scene
               </span>
-              <span className="text-neutral-400 dark:text-neutral-500">~{estimatedSecs}s to speak</span>
+              <span className="text-neutral-400 dark:text-neutral-400">~{estimatedSecs}s to speak</span>
             </div>
           </>
         )}
@@ -272,7 +272,7 @@ export function ScriptEditor({
           <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
             {totalMins > 0 ? `${totalMins}m ` : ""}{totalSecs}s
           </span>
-          <span className="text-xs text-neutral-400 dark:text-neutral-500">({script.scenes.length} scenes)</span>
+          <span className="text-xs text-neutral-400 dark:text-neutral-400">({script.scenes.length} scenes)</span>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -315,7 +315,7 @@ export function ScriptEditor({
           {/* Add scene at end */}
           <button
             onClick={() => handleAddSceneAfter(script.scenes.length - 1)}
-            className="w-full py-3 rounded-xl border-2 border-dashed border-neutral-200 dark:border-neutral-700 text-neutral-400 dark:text-neutral-500 hover:border-emerald-400 dark:hover:border-emerald-600 hover:text-emerald-600 dark:hover:text-emerald-400 transition text-sm flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-xl border-2 border-dashed border-neutral-200 dark:border-neutral-700 text-neutral-400 dark:text-neutral-400 hover:border-emerald-400 dark:hover:border-emerald-600 hover:text-emerald-600 dark:hover:text-emerald-400 transition text-sm flex items-center justify-center gap-2"
           >
             <Plus size={16} /> Add Scene
           </button>

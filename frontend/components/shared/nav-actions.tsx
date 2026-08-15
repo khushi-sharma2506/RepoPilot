@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useSession, signOut } from "next-auth/react";
+import Image from "next/image";
 import { Moon, Sun, LogOut, User } from "lucide-react";
 
 export function NavActions() {
@@ -49,10 +50,12 @@ export function NavActions() {
           className="flex items-center gap-2 focus:outline-none"
         >
           {session?.user?.image ? (
-            <img
+            <Image
               src={session.user.image}
               alt="Profile"
-              className="w-8 h-8 rounded-full border border-neutral-200 dark:border-neutral-700 hover:opacity-80 transition"
+              width={32}
+              height={32}
+              className="rounded-full border border-neutral-200 dark:border-neutral-700 hover:opacity-80 transition"
             />
           ) : (
             <div className="w-8 h-8 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 flex items-center justify-center hover:opacity-80 transition">
