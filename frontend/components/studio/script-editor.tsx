@@ -122,19 +122,28 @@ function SceneCard({
                 <Sparkles size={14} />
                 Ask AI to rewrite this scene
               </label>
-              <input
-                type="text"
-                placeholder="e.g. 'Make it exactly 10s' or 'Make it sound technical'"
-                className="w-full text-sm px-3 py-2.5 rounded-lg bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/50 text-neutral-900 dark:text-white placeholder-blue-400/60 dark:placeholder-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && e.currentTarget.value.trim()) {
-                    e.preventDefault();
-                    onAskAI(idx, e.currentTarget.value.trim());
-                    e.currentTarget.value = '';
+              <form 
+                className="relative flex items-center"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const input = e.currentTarget.elements.namedItem('aiPrompt') as HTMLInputElement;
+                  if (input.value.trim()) {
+                    onAskAI(idx, input.value.trim());
+                    input.value = '';
                     setEditing(false); // Close edit mode and let AI take over
                   }
                 }}
-              />
+              >
+                <input
+                  name="aiPrompt"
+                  type="text"
+                  placeholder="e.g. 'Make it exactly 10s' or 'Make it sound technical'"
+                  className="w-full text-sm pl-3 pr-10 py-2.5 rounded-lg bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/50 text-neutral-900 dark:text-white placeholder-blue-400/60 dark:placeholder-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                />
+                <button type="submit" className="absolute right-2 p-1.5 text-blue-500 hover:text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-md transition">
+                  <Send size={14} />
+                </button>
+              </form>
             </div>
           </>
         ) : (
