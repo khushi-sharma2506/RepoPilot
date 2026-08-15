@@ -51,23 +51,23 @@ function SceneCard({
     <div className={`rounded-xl border transition-all ${editing ? "border-blue-400 dark:border-blue-500 shadow-lg" : "border-neutral-200 dark:border-neutral-800"} bg-white dark:bg-neutral-950 overflow-hidden`}>
       {/* Scene header */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-mono font-bold text-neutral-500 dark:text-neutral-400">SCENE {scene.scene_number}</span>
+        <div className="flex items-center gap-2 min-w-0 overflow-hidden pr-2">
+          <span className="text-xs font-mono font-bold text-neutral-500 dark:text-neutral-400 shrink-0">SCENE {scene.scene_number}</span>
           {mismatch && !editing && (
             <button
               onClick={() => {
                 const snapped = { ...scene, duration_seconds: estimatedSecs + 0.5 };
                 onSave(idx, snapped);
               }}
-              className="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-700 hover:bg-amber-200 dark:hover:bg-amber-800/50 transition cursor-pointer flex items-center gap-1 shadow-sm"
+              className="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-700 hover:bg-amber-200 dark:hover:bg-amber-800/50 transition cursor-pointer flex items-center gap-1 shadow-sm shrink-0 md:shrink"
               title={`Narration takes ~${estimatedSecs}s to speak but scene is only ${scene.duration_seconds}s. Click to auto-fix.`}
             >
               <span className="hidden sm:inline">⚠ Voice cut off <span className="opacity-50">|</span> Click to snap to ~{estimatedSecs + 0.5}s</span>
-              <span className="sm:hidden">⚠ Snap ~{estimatedSecs + 0.5}s</span>
+              <span className="sm:hidden whitespace-nowrap">⚠ Snap ~{estimatedSecs + 0.5}s</span>
             </button>
           )}
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 shrink-0">
           {!editing ? (
             <>
               <button onClick={() => setEditing(true)} className="p-1.5 rounded-lg text-neutral-400 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition">
@@ -188,6 +188,7 @@ export function ScriptEditor({
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const [undoStack, setUndoStack] = useState<Script[]>([]);
   const [redoStack, setRedoStack] = useState<Script[]>([]);
+  const [mobileTab, setMobileTab] = useState<"script" | "chat">("script");
 
   useEffect(() => {
     if (chatScrollRef.current) {
@@ -296,10 +297,26 @@ export function ScriptEditor({
         </div>
       </div>
 
+      {/* Mobile Tabs */}
+      <div className="lg:hidden flex bg-neutral-100 dark:bg-neutral-800/50 p-1 rounded-xl mb-6 w-full max-w-sm mx-auto">
+        <button
+          onClick={() => setMobileTab("script")}
+          className={`flex-1 py-2 text-sm font-semibold rounded-lg transition ${mobileTab === "script" ? "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-sm" : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"}`}
+        >
+          Script Scenes
+        </button>
+        <button
+          onClick={() => setMobileTab("chat")}
+          className={`flex-1 py-2 text-sm font-semibold rounded-lg transition flex items-center justify-center gap-1.5 ${mobileTab === "chat" ? "bg-white dark:bg-neutral-900 text-blue-600 dark:text-blue-400 shadow-sm" : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"}`}
+        >
+          <Sparkles size={14} /> Director AI
+        </button>
+      </div>
+
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         {/* Left: Scene Cards */}
-        <div className="space-y-3 max-h-[75vh] overflow-y-auto pr-1">
+        <div className={`${mobileTab === "script" ? "block" : "hidden"} lg:block space-y-3 max-h-[75vh] overflow-y-auto pr-1`}>
           {script?.scenes?.map((scene, idx) => (
             <SceneCard
               key={idx}
@@ -322,7 +339,7 @@ export function ScriptEditor({
         </div>
 
         {/* Right: Director Agent Chat */}
-        <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl flex flex-col h-[500px] lg:h-[75vh] shadow-sm overflow-hidden">
+        <div className={`${mobileTab === "chat" ? "flex" : "hidden"} lg:flex bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl flex-col h-[65vh] lg:h-[75vh] shadow-sm overflow-hidden`}>
           <div className="p-4 border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950/50">
             <h3 className="text-base font-bold text-center text-neutral-900 dark:text-white">Director Agent</h3>
             <p className="text-xs text-center text-neutral-500 dark:text-neutral-400 mt-0.5">Try: "make it 60 seconds" · "make scene 2 punchier"</p>
