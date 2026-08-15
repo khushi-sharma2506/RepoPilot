@@ -59,11 +59,11 @@ function SceneCard({
                 const snapped = { ...scene, duration_seconds: estimatedSecs + 0.5 };
                 onSave(idx, snapped);
               }}
-              className="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-700 hover:bg-amber-200 dark:hover:bg-amber-800/50 transition cursor-pointer flex items-center gap-1 shadow-sm shrink-0 md:shrink"
+              className="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-2.5 py-1 rounded-xl border border-amber-200 dark:border-amber-700 hover:bg-amber-200 dark:hover:bg-amber-800/50 transition cursor-pointer flex items-center gap-1 shadow-sm shrink-0 md:shrink text-left leading-tight"
               title={`Narration takes ~${estimatedSecs}s to speak but scene is only ${scene.duration_seconds}s. Click to auto-fix.`}
             >
               <span className="hidden sm:inline">⚠ Voice cut off <span className="opacity-50">|</span> Click to snap to ~{estimatedSecs + 0.5}s</span>
-              <span className="sm:hidden whitespace-nowrap">⚠ Snap ~{estimatedSecs + 0.5}s</span>
+              <span className="sm:hidden">⚠ Voice cut off<br/><span className="opacity-75">Click to snap to ~{estimatedSecs + 0.5}s</span></span>
             </button>
           )}
         </div>
