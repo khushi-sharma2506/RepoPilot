@@ -87,6 +87,17 @@ export default function LoginPage() {
                 {loading ? "PROCESSING..." : "CONTINUE WITH GITHUB"}
                 {!loading && <GitBranch size={18} />}
               </button>
+              
+              <div style={{ textAlign: "center", marginTop: 8 }}>
+                <a 
+                  href="https://github.com/logout" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{ fontSize: 13, color: "var(--p-fg-3)", textDecoration: "underline", opacity: 0.8 }}
+                >
+                  Need to switch accounts? Log out of GitHub first.
+                </a>
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>
