@@ -90,8 +90,7 @@ export default function LandingPage() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 64, display: "flex", alignItems: "center", padding: "0 32px", gap: 16 }}
-        className="p-glass"
+        className="p-glass fixed inset-x-0 top-0 z-[100] h-16 flex items-center px-4 md:px-8 gap-3 md:gap-4"
       >
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
           <Image src="/logo.png" alt="RepoPilot Logo" width={34} height={34} style={{ borderRadius: "50%", objectFit: "cover" }} />
@@ -100,17 +99,17 @@ export default function LandingPage() {
           </span>
         </Link>
 
-        <div style={{ flex: 1 }} />
-
-        {[
-          { label: "Showcase", id: "showcase" },
-          { label: "Stats", id: "stats" },
-          { label: "Features", id: "features" },
-        ].map((item) => (
-          <a key={item.id} href={`#${item.id}`} style={{ fontSize: 14, fontWeight: 500, color: "var(--p-fg-2)", textDecoration: "none", padding: "6px 14px", borderRadius: 8, transition: "0.2s" }}>
-            {item.label}
-          </a>
-        ))}
+        <div className="hidden md:flex flex-1 items-center justify-center gap-2">
+          {[
+            { label: "Showcase", id: "showcase" },
+            { label: "Stats", id: "stats" },
+            { label: "Features", id: "features" },
+          ].map((item) => (
+            <a key={item.id} href={`#${item.id}`} style={{ fontSize: 14, fontWeight: 500, color: "var(--p-fg-2)", textDecoration: "none", padding: "6px 14px", borderRadius: 8, transition: "0.2s" }}>
+              {item.label}
+            </a>
+          ))}
+        </div>
 
         <div style={{ flex: 1 }} />
 
@@ -132,7 +131,7 @@ export default function LandingPage() {
       </motion.nav>
 
       {/* ─── HERO ─────────────────────────────────────────────────── */}
-      <section style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column" as const, alignItems: "center", justifyContent: "center", textAlign: "center" as const, maxWidth: 900, margin: "0 auto", padding: "180px 24px 100px" }}>
+      <section className="relative z-10 flex flex-col items-center justify-center text-center max-w-[900px] mx-auto pt-32 md:pt-[180px] pb-20 md:pb-[100px] px-4 md:px-6">
         
         <Fade delay={0}>
           <motion.div whileHover={{ scale: 1.03 }} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px 6px 8px", borderRadius: 50, border: "1px solid var(--p-border-2)", background: "var(--p-surface)", fontSize: 13, fontWeight: 600, color: "var(--p-fg-2)", cursor: "pointer", marginBottom: 28 }}>
@@ -155,7 +154,7 @@ export default function LandingPage() {
         </Fade>
 
         <Fade delay={0.3}>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" as const, justifyContent: "center" }}>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center w-full sm:w-auto px-4">
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.98 }}>
               <Link href="/login" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 28px", borderRadius: 12, fontSize: 15, fontWeight: 700, color: "#fff", textDecoration: "none", background: "linear-gradient(135deg, var(--p-accent), var(--p-accent-2))", boxShadow: "0 4px 20px var(--p-accent-glow), 0 0 0 1px var(--p-accent)" }}>
                 <Sparkles size={16} /> Enter the Studio Free
@@ -170,7 +169,7 @@ export default function LandingPage() {
         </Fade>
 
         {/* Floating stat cards */}
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: -1 }}>
+        <div className="hidden lg:block absolute inset-0 pointer-events-none -z-10">
           <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} className="p-glass p-shimmer" style={{ position: "absolute", top: 100, left: -60, padding: "14px 16px", borderRadius: 14, minWidth: 150, boxShadow: "var(--p-shadow-lg)" }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: "var(--p-fg-3)", textTransform: "uppercase" as const, letterSpacing: "0.5px", marginBottom: 6 }}>Repos Analyzed</div>
             <div style={{ fontSize: 24, fontWeight: 800, color: "var(--p-accent)" }}>2,847</div>
@@ -191,7 +190,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── PRODUCT SHOWCASE (3D mockup) ─────────────────────────── */}
-      <section id="showcase" style={{ position: "relative", zIndex: 1, maxWidth: 1000, margin: "0 auto", padding: "0 24px 80px" }} className="p-perspective">
+      <section id="showcase" className="relative z-10 max-w-[1000px] mx-auto px-4 md:px-6 pb-20 p-perspective">
         <Fade>
           <motion.div
             whileHover={{ rotateX: 1, rotateY: -2 }}
@@ -207,8 +206,8 @@ export default function LandingPage() {
               </div>
               <div style={{ flex: 1, textAlign: "center" as const, fontSize: 12, fontWeight: 600, color: "var(--p-fg-3)" }}>RepoPilot Studio</div>
             </div>
-            <div style={{ display: "flex", height: 320 }}>
-              <div style={{ width: 180, borderRight: "1px solid var(--p-border)", padding: 12, display: "flex", flexDirection: "column" as const, gap: 4 }}>
+            <div className="flex flex-col md:flex-row md:h-[320px]">
+              <div className="hidden md:flex w-[180px] flex-col border-r border-[var(--p-border)] p-3 gap-1">
                 {["Analyze", "Narrative", "Script", "Voices", "Export"].map((item, i) => (
                   <div key={item} style={{ padding: "8px 10px", borderRadius: 6, fontSize: 12, fontWeight: i === 2 ? 600 : 400, color: i === 2 ? "var(--p-accent)" : "var(--p-fg-3)", background: i === 2 ? "var(--p-accent-glow)" : "transparent" }}>{item}</div>
                 ))}
@@ -222,7 +221,7 @@ export default function LandingPage() {
                   </motion.div>
                 ))}
               </div>
-              <div style={{ width: 200, borderLeft: "1px solid var(--p-border)", padding: 12, display: "flex", flexDirection: "column" as const, gap: 6 }}>
+              <div className="hidden md:flex w-[200px] flex-col border-l border-[var(--p-border)] p-3 gap-1.5">
                 <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 4 }}>Script AI</div>
                 <div style={{ padding: "6px 8px", borderRadius: 6, background: "var(--p-border)", fontSize: 11, color: "var(--p-fg-3)" }}>What angle should I focus on?</div>
                 <div style={{ padding: "6px 8px", borderRadius: 6, background: "linear-gradient(135deg, var(--p-accent), var(--p-accent-2))", fontSize: 11, color: "#fff", alignSelf: "flex-end" }}>Make it hackathon-ready</div>
@@ -234,7 +233,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── STATS ────────────────────────────────────────────────── */}
-      <section id="stats" style={{ position: "relative", zIndex: 1, maxWidth: 900, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32, padding: "40px 24px 80px" }}>
+      <section id="stats" className="relative z-10 max-w-[900px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 py-10 md:py-20 px-6">
         <StatCard value="2.8k+" label="Repos showcased" delay={0} />
         <StatCard value="4 voices" label="US & UK AI narration" delay={0.1} />
         <StatCard value="9:16 & 16:9" label="Aspect ratios" delay={0.2} />
@@ -244,7 +243,7 @@ export default function LandingPage() {
       <div className="p-glow-line" style={{ maxWidth: 600, margin: "0 auto" }} />
 
       {/* ─── FEATURES ─────────────────────────────────────────────── */}
-      <section id="features" style={{ position: "relative", zIndex: 1, maxWidth: 1100, margin: "0 auto", padding: "80px 24px" }}>
+      <section id="features" className="relative z-10 max-w-[1100px] mx-auto py-16 md:py-20 px-4 md:px-6">
         <Fade>
           <div style={{ textAlign: "center" as const, marginBottom: 56 }}>
             <p style={{ fontSize: 13, fontWeight: 700, color: "var(--p-accent)", textTransform: "uppercase" as const, letterSpacing: 1, marginBottom: 12 }}>Features</p>
@@ -255,7 +254,7 @@ export default function LandingPage() {
           </div>
         </Fade>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           <FeatureCard icon={Zap} title="No Black Boxes" desc="Pick your narrative angle, chat with the AI to refine the script line-by-line, and control every scene." color="var(--p-accent)" delay={0} />
           <FeatureCard icon={Mic} title="Studio Voiceovers" desc="Curated US & UK AI voices. Tune the pitch, preview before generating, and regenerate any scene." color="var(--p-accent-2)" delay={0.1} />
           <FeatureCard icon={Download} title="Editable MP4 Export" desc="Download a green-screen template ready to drop into CapCut or Premiere Pro for pro-level polish." color="var(--p-accent-3)" delay={0.2} />
@@ -266,7 +265,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── CTA ──────────────────────────────────────────────────── */}
-      <section style={{ position: "relative", zIndex: 1, maxWidth: 700, margin: "0 auto", textAlign: "center" as const, padding: "60px 24px 120px" }}>
+      <section className="relative z-10 max-w-[700px] mx-auto text-center py-16 md:py-[120px] px-4 md:px-6">
         <Fade>
           <div style={{ padding: "56px 40px", borderRadius: 24, border: "1px solid var(--p-border-2)", background: "var(--p-surface)", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", top: -80, right: -80, width: 200, height: 200, borderRadius: "50%", background: "var(--p-accent-glow)", filter: "blur(60px)" }} />
@@ -285,9 +284,9 @@ export default function LandingPage() {
       </section>
 
       {/* ─── FOOTER ───────────────────────────────────────────────── */}
-      <footer style={{ position: "relative", zIndex: 1, borderTop: "1px solid var(--p-border)", padding: "40px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", color: "var(--p-fg-2)", fontSize: 13 }}>
+      <footer className="relative z-10 border-t border-[var(--p-border)] py-8 md:py-10 px-6 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4" style={{ color: "var(--p-fg-2)", fontSize: 13 }}>
         <span>© 2026 RepoPilot</span>
-        <div style={{ display: "flex", gap: 24 }}>
+        <div className="flex gap-4 md:gap-6">
           {["Studio", "Voices", "Export"].map((t) => (
             <a key={t} href="#" style={{ color: "var(--p-fg-2)", textDecoration: "none" }}>{t}</a>
           ))}

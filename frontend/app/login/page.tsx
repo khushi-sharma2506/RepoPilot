@@ -45,7 +45,7 @@ export default function LoginPage() {
       </div>
 
       {/* Floating system status blocks */}
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 3, overflow: "hidden" }}>
+      <div className="hidden lg:block absolute inset-0 pointer-events-none z-[3] overflow-hidden">
         <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} className="p-glass" style={{ position: "absolute", top: "15%", left: "10%", padding: "16px", borderRadius: 16, minWidth: 160, border: "1px solid rgba(255,255,255,0.1)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}><Activity size={14} color="var(--p-green)" /><span style={{ fontSize: 11, fontWeight: 700, color: "var(--p-fg-3)", textTransform: "uppercase" }}>AI Agents</span></div>
           <div style={{ fontSize: 18, fontWeight: 800, color: "var(--p-fg)" }}>Operational</div>
@@ -58,7 +58,7 @@ export default function LoginPage() {
 
       {/* Theme toggle */}
       {mounted && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: "absolute", top: 40, right: 40, zIndex: 10 }}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute top-5 right-5 md:top-10 md:right-10 z-10">
           <button aria-label="Toggle Theme" onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")} style={{ width: 48, height: 48, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.2)", backdropFilter: "blur(12px)", color: "var(--p-fg-2)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
             {resolvedTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
           </button>
@@ -66,7 +66,7 @@ export default function LoginPage() {
       )}
 
       {/* AUTH CARD */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="p-scroll" style={{ width: "100%", maxWidth: 420, margin: "20px", position: "relative", zIndex: 2, background: mounted && resolvedTheme === "dark" ? "rgba(10,10,15,0.7)" : "rgba(255,255,255,0.8)", backdropFilter: "blur(32px)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 28, padding: "40px", boxShadow: "0 40px 80px rgba(0,0,0,0.3)" }}>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="p-scroll p-6 md:p-10" style={{ width: "100%", maxWidth: 420, margin: "20px", position: "relative", zIndex: 2, background: mounted && resolvedTheme === "dark" ? "rgba(10,10,15,0.7)" : "rgba(255,255,255,0.8)", backdropFilter: "blur(32px)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 28, boxShadow: "0 40px 80px rgba(0,0,0,0.3)" }}>
 
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 32 }}>
           <Link href="/" style={{ textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
