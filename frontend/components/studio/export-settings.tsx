@@ -10,6 +10,7 @@ export function ExportSettings({
   previewLoading, handlePreviewVoice,
   voiceLoading, handleGenerateVoiceover,
   handleRenderMp4,
+  project,
 }: {
   aspectRatio: string; setAspectRatio: (a: string) => void;
   voices: Voice[]; voiceId: string; setVoiceId: (id: string) => void;
