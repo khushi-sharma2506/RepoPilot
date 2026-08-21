@@ -80,10 +80,57 @@ Using RepoPilot takes less than 2 minutes:
 ## 🏗️ Architecture
 
 RepoPilot is built on a modern, decoupled stack designed for heavy AI workloads.
-
-<img width="6909" height="3375" alt="Frontend-Backend-2026-08-21-173005" src="https://github.com/user-attachments/assets/d051b103-2d5b-4299-a792-ae5b128f42b0" />
-
-
+```mermaid
+  graph TD
+      %% Define styles
+      classDef client fill:#1E293B,stroke:#94A3B8,stroke-width:2px,color:#F8FAFC
+      classDef server fill:#0F766E,stroke:#5EEAD4,stroke-width:2px,color:#F0FDFA
+      classDef ai fill:#6D28D9,stroke:#C4B5FD,stroke-width:2px,color:#F5F3FF
+      classDef db fill:#0369A1,stroke:#7DD3FC,stroke-width:2px,color:#F0F9FF
+  
+      User([👤 Developer])
+  
+      subgraph "1. Client Layer (Next.js & Vercel)"
+          UI[🖥️ Dashboard UI]
+          Auth[🔐 NextAuth]
+          Render[🎬 Remotion Video Engine]
+      end
+  
+      subgraph "2. Backend Agent Layer (FastAPI & Render)"
+          API[🌐 REST API]
+          Agent[🤖 Core AI Orchestrator]
+      end
+  
+      subgraph "3. Cloud & External Services"
+          GitHub[🐙 GitHub API]
+          Gemini[🧠 Gemini LLM]
+          TTS[🎙️ Edge TTS]
+          DB[(🗄️ Supabase PostgreSQL)]
+      end
+  
+      %% Step-by-Step Flow
+      User -- "1. Logs in" --> Auth
+      User -- "2. Pastes Repo URL" --> UI
+      
+      UI -- "3. Triggers Generation" --> API
+      API --> Agent
+      
+      Agent -- "4a. Extracts source code" --> GitHub
+      Agent -- "4b. Generates scene-by-scene JSON" --> Gemini
+      Agent -- "4c. Synthesizes MP3 voiceovers" --> TTS
+      
+      Agent -- "5. Saves project & script state" --> DB
+      
+      API -- "6. Sends JSON & MP3 data back" --> Render
+      
+      Render -- "7. Generates live video preview" --> User
+  
+      %% Apply Styles
+      class UI,Auth,Render client
+      class API,Agent server
+      class Gemini,TTS,GitHub ai
+      class DB db
+  ```
 ---
 
 ## 💻 Local Development
