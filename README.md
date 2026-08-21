@@ -1,3 +1,4 @@
+[Uploading RepoPilot_Architecture.md…]()
 <div align="center">
 
 <img src="https://github.com/khushi-sharma2506/RepoPilot/blob/main/frontend/public/logo.png?raw=true" width="80" height="80" style="border-radius: 50%;" alt="RepoPilot Logo" />
@@ -80,29 +81,8 @@ Using RepoPilot takes less than 2 minutes:
 
 RepoPilot is built on a modern, decoupled stack designed for heavy AI workloads.
 
-```
-┌─────────────────────────────────────────────┐
-│                   USER                       │
-└──────────────────┬──────────────────────────┘
-                   │  HTTPS
-       ┌───────────▼───────────┐
-       │   Next.js Frontend    │  ← Vercel
-       │   (App Router, React) │
-       │   Remotion Player     │
-       │   NextAuth (OAuth)    │
-       └───────────┬───────────┘
-                   │  REST API + JWT Auth
-       ┌───────────▼───────────┐
-       │   FastAPI Backend     │  ← Render.com
-       │   Python AI Agents    │
-       │   Gemini LLM          │
-       │   Edge TTS            │
-       └───────────┬───────────┘
-                   │  SQLAlchemy (pg8000)
-       ┌───────────▼───────────┐
-       │   Supabase (Postgres) │  ← Cloud DB
-       └───────────────────────┘
-```
+<img width="6909" height="3375" alt="Frontend-Backend-2026-08-21-173005" src="https://github.com/user-attachments/assets/d051b103-2d5b-4299-a792-ae5b128f42b0" />
+
 
 ---
 
