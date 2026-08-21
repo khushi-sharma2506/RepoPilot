@@ -1,4 +1,4 @@
-[Uploading RepoPilot_Architecture.md…]()
+
 <div align="center">
 
 <img src="https://github.com/khushi-sharma2506/RepoPilot/blob/main/frontend/public/logo.png?raw=true" width="80" height="80" style="border-radius: 50%;" alt="RepoPilot Logo" />
