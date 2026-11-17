@@ -60,7 +60,7 @@ Using RepoPilot takes less than 2 minutes:
 Paste any public GitHub repository URL into the dashboard. RepoPilot's AI agents deep-dive into your code, detect your tech stack, and extract your project's core innovations.
 
 <p align="center">
-  <img src="docs/assets/step1-analyze-repo.png" alt="Paste GitHub Repository URL" width="95%" />
+  <img src="docs/assets/step1-analyze-repo.gif" alt="Paste GitHub Repository URL" width="95%" />
 </p>
 
 ### 2. Choose an Angle & Storyline
@@ -70,14 +70,14 @@ Pick a narrative style (such as *"The Technical Deep-Dive"*, *"The Origin Story"
 You have full creative control! Review the generated scenes on the left, and chat with the AI Director Agent on the right to tweak tone, punch up technical explanations, or adjust timings on the fly.
 
 <p align="center">
-  <img src="docs/assets/step2-director-studio.png" alt="Interactive Script Studio and Director Agent" width="95%" />
+  <img src="docs/assets/step2-director-studio.gif" alt="Interactive Script Studio and Director Agent" width="95%" />
 </p>
 
 ### 4. Voice Selection, Pitch Tuning & Multi-Format MP4 Export
 Select your target format—**Landscape (16:9)** for YouTube/PC or **Portrait (9:16)** for Reels/TikTok. Choose your preferred AI neural voice, tune speech pitch, test synthesis live, and export a production-ready MP4 demo video!
 
 <p align="center">
-  <img src="docs/assets/step3-voice-export.png" alt="Video and Audio Settings and MP4 Export" width="95%" />
+  <img src="docs/assets/step3-voice-export.gif" alt="Video and Audio Settings and MP4 Export" width="95%" />
 </p>
 
 ---
