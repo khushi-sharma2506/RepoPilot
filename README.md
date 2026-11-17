@@ -24,6 +24,10 @@
   <img alt="Render" src="https://img.shields.io/badge/Render-000?logo=render&logoColor=white">
 </p>
 
+<p align="center">
+  <img src="docs/assets/hero-landing.png" alt="RepoPilot Studio Landing Page" width="100%" />
+</p>
+
 </div>
 
 ---
@@ -52,10 +56,29 @@ Just paste a GitHub URL — our AI agents will instantly deep-dive into your cod
 
 Using RepoPilot takes less than 2 minutes:
 
-1. **Connect & Analyze:** Paste any public GitHub repository URL into the dashboard. RepoPilot's AI agents will read the code, detect the tech stack, and understand the core features.
-2. **Choose an Angle:** Pick a narrative style (e.g., "The Technical Deep-Dive" or "The Origin Story"). The AI will generate a synchronized scene-by-scene script.
-3. **Edit & Direct:** The developer has full control! You can edit the script yourself, or chat with the AI Director Agent to tweak the tone, add custom notes, and refine the scenes until they are perfect.
-4. **Generate & Export:** Pick an AI voice, generate the audio, and hit **Export MP4** to render your cinematic green-screen template!
+### 1. Connect & Autonomous Codebase Analysis
+Paste any public GitHub repository URL into the dashboard. RepoPilot's AI agents deep-dive into your code, detect your tech stack, and extract your project's core innovations.
+
+<p align="center">
+  <img src="docs/assets/step1-analyze-repo.png" alt="Paste GitHub Repository URL" width="95%" />
+</p>
+
+### 2. Choose an Angle & Storyline
+Pick a narrative style (such as *"The Technical Deep-Dive"*, *"The Origin Story"*, or *"Hackathon Presentation"*). The AI generates a synchronized scene-by-scene script with visual prompts and narration timings.
+
+### 3. Interactive Director Agent & Script Studio
+You have full creative control! Review the generated scenes on the left, and chat with the AI Director Agent on the right to tweak tone, punch up technical explanations, or adjust timings on the fly.
+
+<p align="center">
+  <img src="docs/assets/step2-director-studio.png" alt="Interactive Script Studio and Director Agent" width="95%" />
+</p>
+
+### 4. Voice Selection, Pitch Tuning & Multi-Format MP4 Export
+Select your target format—**Landscape (16:9)** for YouTube/PC or **Portrait (9:16)** for Reels/TikTok. Choose your preferred AI neural voice, tune speech pitch, test synthesis live, and export a production-ready MP4 demo video!
+
+<p align="center">
+  <img src="docs/assets/step3-voice-export.png" alt="Video and Audio Settings and MP4 Export" width="95%" />
+</p>
 
 ---
 
